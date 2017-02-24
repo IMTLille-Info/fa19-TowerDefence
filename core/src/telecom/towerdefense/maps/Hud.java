@@ -50,9 +50,9 @@ public class Hud implements InputProcessor {
 		int xCase = screenX / AssetLoader.TXT_SIZE;
 		int yCase = (AssetLoader.SCREEN_HEIGHT - screenY) / AssetLoader.TXT_SIZE;
 		
-		if(this.aI.getMap().mapArray[xCase][yCase].getClass() == BuildingCase.class) { //Ajout d'un batiment
+		if(this.aI.getMap().getMapArray()[xCase][yCase].getClass() == BuildingCase.class) { //Ajout d'un batiment
 			Building archerTower = new ArcherTower();
-			archerTower.setPosition(this.aI.getMap().mapArray[xCase][yCase].getPosition());
+			archerTower.setPosition(this.aI.getMap().getMapArray()[xCase][yCase].getPosition());
 			this.aI.getMap().addBuilding(archerTower);
 		}
 		

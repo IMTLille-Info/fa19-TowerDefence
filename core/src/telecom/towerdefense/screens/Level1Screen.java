@@ -5,7 +5,6 @@ import com.badlogic.gdx.Screen;
 
 import telecom.towerdefense.maps.AI;
 import telecom.towerdefense.maps.Hud;
-import telecom.towerdefense.maps.Level1Map;
 import telecom.towerdefense.maps.Map;
 import telecom.towerdefense.maps.MapRenderer;
 
@@ -16,7 +15,8 @@ public class Level1Screen implements Screen {
 	private AI aI;
 	
 	public Level1Screen() {
-		this.level1 = new Level1Map();
+		String mapDatas = Gdx.files.internal("level1.map").readString();
+		this.level1 = new Map(mapDatas);
 		this.aI = new AI(level1);
 		this.hud = new Hud(aI);
 		this.mapRenderer = new MapRenderer(level1);
