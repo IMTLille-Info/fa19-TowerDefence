@@ -12,6 +12,14 @@ public class AI {
 		
 	}
 	
+	public Map getCurrentMap() {
+		return currentMap;
+	}
+
+	public void setCurrentMap(Map currentMap) {
+		this.currentMap = currentMap;
+	}
+
 	private void updateUnit() {
 		
 	}
@@ -24,16 +32,5 @@ public class AI {
 		this.updateBuilding();
 		this.updateEnemyUnit();
 		this.updateUnit();
-	}
-
-	public Map getMap() {
-		return currentMap;
-	}
-
-	public void setMap(Map currentMap) {
-		this.currentMap = currentMap;
-	}
-	
-	
-	
+	}	
 }

@@ -1,21 +1,37 @@
 package telecom.towerdefense.maps;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.BitmapFont.BitmapFontData;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 
 import telecom.towerdefense.gameobjects.building.Building;
 import telecom.towerdefense.gameobjects.cases.Case;
 import telecom.towerdefense.gameobjects.units.Unit;
 import telecom.towerdefense.utilities.AssetLoader;
+import userinputs.Hud;
 
 public class MapRenderer {
 	private SpriteBatch batch;
 	private Map currentMap;
+	private Hud hud;
+	private BitmapFont bmpFont;
 	
-	public MapRenderer(Map currentMap) {
-		this.currentMap = currentMap;
+	
+	public MapRenderer(Hud hud) {
+		this.hud = hud;
 		batch = new SpriteBatch();
+		currentMap = hud.getaI().getCurrentMap();
+		bmpFont = new BitmapFont();
+		bmpFont.setColor(Color.WHITE);
+		BitmapFontData datasFont = bmpFont.getData();
+		datasFont.setScale(1.5f);		
 	}
 	
 	public void render() {
@@ -38,6 +54,14 @@ public class MapRenderer {
 		for(Unit enemyUnit : currentMap.getListEnemyUnits()) {
 			batch.draw(enemyUnit.getTexture(), enemyUnit.getPosition().x, enemyUnit.getPosition().y, AssetLoader.TXT_SIZE, AssetLoader.TXT_SIZE);
 		}
+
+		
+		if(hud.getBuildMenu().isEnabled()) {
+			//TODO DESSIN HUD	
+			batch.draw(hud.getBuildMenu().getTexture(), hud.getBuildMenu().getPosition().x, AssetLoader.SCREEN_HEIGHT - hud.getBuildMenu().getPosition().y, hud.getBuildMenu().getTexture().getRegionWidth(), hud.getBuildMenu().getTexture().getRegionHeight());
+		}
+		
+		bmpFont.draw(batch, "Mana : " + String.valueOf(hud.getMana()), 25, 60);
 		
 		batch.end();
 	}

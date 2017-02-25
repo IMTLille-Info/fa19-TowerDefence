@@ -4,9 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 
 import telecom.towerdefense.maps.AI;
-import telecom.towerdefense.maps.Hud;
 import telecom.towerdefense.maps.Map;
 import telecom.towerdefense.maps.MapRenderer;
+import userinputs.Hud;
 
 public class Level1Screen implements Screen {
 	private Hud hud;
@@ -19,7 +19,7 @@ public class Level1Screen implements Screen {
 		this.level1 = new Map(mapDatas);
 		this.aI = new AI(level1);
 		this.hud = new Hud(aI);
-		this.mapRenderer = new MapRenderer(level1);
+		this.mapRenderer = new MapRenderer(hud);
 		Gdx.input.setInputProcessor(hud);
 	}
 	

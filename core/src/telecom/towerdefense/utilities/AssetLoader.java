@@ -15,6 +15,7 @@ public class AssetLoader {
 	
 	public static TextureRegion txtRoad, txtGround, txtBuilding;
 	public static TextureRegion txtArcherTower;
+	public static TextureRegion txtBuildingMenuBackGround;
 	
 	public static void load() {
 		spriteDesk = new Texture(Gdx.files.internal("Sprite.png")); //Chargement des textures
@@ -28,6 +29,8 @@ public class AssetLoader {
 		txtBuilding = new TextureRegion(spriteDesk, 577, 160, TXT_SIZE, TXT_SIZE);
 		
 		txtArcherTower = new TextureRegion(spriteDesk, 480, 480, TXT_SIZE, TXT_SIZE);
+		
+		txtBuildingMenuBackGround = new TextureRegion(spriteDesk, 379, 352, 3 * TXT_SIZE, TXT_SIZE);
 	}
 	
 	public static void dispose() {
