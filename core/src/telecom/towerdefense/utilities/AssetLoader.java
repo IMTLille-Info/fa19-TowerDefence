@@ -20,6 +20,7 @@ public class AssetLoader {
 		spriteDesk = new Texture(Gdx.files.internal("Sprite.png")); //Chargement des textures
 		spriteDesk.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 		
+		
 		txtRoad = new TextureRegion(spriteDesk, 480, 160, TXT_SIZE, TXT_SIZE);
 		
 		txtGround = new TextureRegion(spriteDesk, 673, 160, TXT_SIZE, TXT_SIZE);

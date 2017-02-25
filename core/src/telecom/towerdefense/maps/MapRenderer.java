@@ -23,6 +23,7 @@ public class MapRenderer {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
+		batch.enableBlending();
 		batch.begin();
 		Case[][] map = currentMap.getMapArray();
 		for(int x = 0; x < currentMap.getCASE_WIDTH(); x++)
