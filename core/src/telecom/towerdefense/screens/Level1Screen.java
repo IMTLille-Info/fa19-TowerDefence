@@ -6,7 +6,7 @@ import com.badlogic.gdx.Screen;
 import telecom.towerdefense.maps.AI;
 import telecom.towerdefense.maps.Map;
 import telecom.towerdefense.maps.MapRenderer;
-import userinputs.Hud;
+import telecom.towerdefense.userinputs.Hud;
 
 public class Level1Screen implements Screen {
 	private Hud hud;

@@ -1,4 +1,4 @@
-package userinputs;
+package telecom.towerdefense.userinputs;
 
 import telecom.towerdefense.gameobjects.GameObject;
 import telecom.towerdefense.utilities.AssetLoader;

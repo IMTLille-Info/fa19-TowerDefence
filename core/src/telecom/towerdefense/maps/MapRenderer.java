@@ -14,8 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import telecom.towerdefense.gameobjects.building.Building;
 import telecom.towerdefense.gameobjects.cases.Case;
 import telecom.towerdefense.gameobjects.units.Unit;
+import telecom.towerdefense.userinputs.Hud;
 import telecom.towerdefense.utilities.AssetLoader;
-import userinputs.Hud;
 
 public class MapRenderer {
 	private SpriteBatch batch;

@@ -1,4 +1,4 @@
-package userinputs;
+package telecom.towerdefense.userinputs;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
