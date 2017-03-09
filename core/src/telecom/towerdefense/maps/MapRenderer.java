@@ -35,7 +35,7 @@ public class MapRenderer {
 		}
 		
 		for(MobileEntity enemyUnit : currentMap.getListEnemyUnits()) {
-			batch.draw(enemyUnit.getTexture(), enemyUnit.getPosition().x, enemyUnit.getPosition().y, AssetLoader.TXT_SIZE, AssetLoader.TXT_SIZE);
+			batch.draw(enemyUnit.getTexture(), enemyUnit.getPosition().x, enemyUnit.getPosition().y, enemyUnit.getTexture().getRegionWidth(), enemyUnit.getTexture().getRegionHeight());
 		}
 		
 		batch.end();

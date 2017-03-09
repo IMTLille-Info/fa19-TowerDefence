@@ -13,6 +13,7 @@ import telecom.towerdefense.gameobjects.tiles.BuildingTile;
 import telecom.towerdefense.gameobjects.tiles.GroundTile;
 import telecom.towerdefense.gameobjects.tiles.RoadTile;
 import telecom.towerdefense.gameobjects.tiles.Tile;
+import telecom.towerdefense.gameobjects.units.Soldier;
 import telecom.towerdefense.utilities.AssetLoader;
 
 public class Map implements InputProcessor {
@@ -64,6 +65,10 @@ public class Map implements InputProcessor {
 				i--;
 			}
 		}
+		
+		Soldier soldier = new Soldier();
+		soldier.setPosition(new Vector2(mapArray[0][10].getPosition()));
+		this.listEnemyUnits.add(soldier);
 	}
 
 	public void update() {
