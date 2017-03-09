@@ -105,8 +105,8 @@ public class Map implements InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		// TODO Auto-generated method stub
-		return false;
+		this.listPlayerBuilding.clear();
+		return true;
 	}
 
 	@Override
@@ -128,7 +128,7 @@ public class Map implements InputProcessor {
 		
 		if(this.mapArray[xCase][yCase].getClass() == BuildingTile.class) { //Ajout d'un batiment
 			Entity archerTower = new ArcherTower();
-			archerTower.setPosition(this.aI.getMap().mapArray[xCase][yCase].getPosition());
+			archerTower.setPosition(this.mapArray[xCase][yCase].getPosition());
 			this.addBuilding(archerTower);
 		}
 		
