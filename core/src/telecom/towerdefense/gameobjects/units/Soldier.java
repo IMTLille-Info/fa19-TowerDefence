@@ -1,5 +1,8 @@
 package telecom.towerdefense.gameobjects.units;
 
-public class Soldier extends Unit {
+import telecom.towerdefense.gameobjects.Entity;
+import telecom.towerdefense.gameobjects.MobileEntity;
+
+public class Soldier extends MobileEntity {
 
 }

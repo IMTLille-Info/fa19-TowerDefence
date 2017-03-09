@@ -8,22 +8,16 @@ public class AI {
 		this.currentMap = currentMap;
 	}
 	
-	private void updateEnemyUnit() {
+	public void updateEnemyUnit() {
 		
 	}
 	
-	private void updateUnit() {
+	public void updateUnit() {
 		
 	}
 	
-	private void updateBuilding() {
+	public void updateBuilding() {
 		
-	}
-	
-	public void updateLogic() {
-		this.updateBuilding();
-		this.updateEnemyUnit();
-		this.updateUnit();
 	}
 
 	public Map getMap() {

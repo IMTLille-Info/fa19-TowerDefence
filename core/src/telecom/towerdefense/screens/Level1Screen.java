@@ -4,23 +4,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 
 import telecom.towerdefense.maps.AI;
-import telecom.towerdefense.maps.Hud;
-import telecom.towerdefense.maps.Level1Map;
 import telecom.towerdefense.maps.Map;
 import telecom.towerdefense.maps.MapRenderer;
 
 public class Level1Screen implements Screen {
-	private Hud hud;
 	private Map level1;
 	private MapRenderer mapRenderer;
-	private AI aI;
 	
 	public Level1Screen() {
-		this.level1 = new Level1Map();
-		this.aI = new AI(level1);
-		this.hud = new Hud(aI);
+		String mapDatas = Gdx.files.internal("level1.map").readString();
+		this.level1 = new Map();
+		this.level1.loadLevel(mapDatas);
 		this.mapRenderer = new MapRenderer(level1);
-		Gdx.input.setInputProcessor(hud);
+		Gdx.input.setInputProcessor(level1);
 	}
 	
 	@Override
@@ -31,7 +27,7 @@ public class Level1Screen implements Screen {
 	@Override
 	public void render(float delta) {
 		Gdx.app.debug("Level1Screen", "RENDER !");
-		hud.update();
+		level1.update();
 		mapRenderer.render();
 	}
 

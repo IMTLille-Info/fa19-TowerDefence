@@ -1,5 +1,7 @@
 package telecom.towerdefense.gameobjects.building;
 
-public class Nexus extends Building {
+import telecom.towerdefense.gameobjects.Entity;
+
+public class Nexus extends Entity {
 
 }
