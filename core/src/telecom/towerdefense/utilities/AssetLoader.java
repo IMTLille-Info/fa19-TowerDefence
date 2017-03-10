@@ -8,8 +8,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class AssetLoader {
 	
 	public final static int TXT_SIZE = 32;
-	public final static int SCREEN_WIDTH = 960;
-	public final static int SCREEN_HEIGHT = 640;
+	//public final static int SCREEN_WIDTH = 960;
+	//public final static int SCREEN_HEIGHT = 640;
+	//public final static float TXT_SCALE = 1f / TXT_SIZE;
 	
 	public static Texture spriteDesk, enemyDesk;;
 	

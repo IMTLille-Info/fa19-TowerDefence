@@ -33,8 +33,7 @@ public class Level1Screen implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-
+		mapRenderer.resize(width, height);
 	}
 
 	@Override

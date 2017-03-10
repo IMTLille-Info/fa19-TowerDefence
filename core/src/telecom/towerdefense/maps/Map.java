@@ -3,6 +3,7 @@ package telecom.towerdefense.maps;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 
@@ -128,8 +129,8 @@ public class Map implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		int xCase = screenX / AssetLoader.TXT_SIZE;
-		int yCase = (AssetLoader.SCREEN_HEIGHT - screenY) / AssetLoader.TXT_SIZE;
+		int xCase = (int) (screenX / AssetLoader.TXT_SIZE);
+		int yCase = (int) ((Gdx.graphics.getHeight() - screenY) / AssetLoader.TXT_SIZE);
 		
 		if(this.mapArray[xCase][yCase].getClass() == BuildingTile.class) { //Ajout d'un batiment
 			Entity archerTower = new ArcherTower();
