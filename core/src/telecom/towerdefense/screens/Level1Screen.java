@@ -3,26 +3,21 @@ package telecom.towerdefense.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 
-import telecom.towerdefense.maps.AI;
 import telecom.towerdefense.maps.Map;
 import telecom.towerdefense.maps.MapRenderer;
-import telecom.towerdefense.userinputs.Hud;
 
 public class Level1Screen implements Screen {
-	private Hud hud;
 	private Map level1;
 	private MapRenderer mapRenderer;
-	private AI aI;
-	
+
 	public Level1Screen() {
 		String mapDatas = Gdx.files.internal("level1.map").readString();
-		this.level1 = new Map(mapDatas);
-		this.aI = new AI(level1);
-		this.hud = new Hud(aI);
-		this.mapRenderer = new MapRenderer(hud);
-		Gdx.input.setInputProcessor(hud);
+		this.level1 = new Map();
+		this.level1.loadLevel(mapDatas);
+		this.mapRenderer = new MapRenderer(level1);
+		Gdx.input.setInputProcessor(level1);
 	}
-	
+
 	@Override
 	public void show() {
 		// TODO Auto-generated method stub
@@ -31,7 +26,7 @@ public class Level1Screen implements Screen {
 	@Override
 	public void render(float delta) {
 		Gdx.app.debug("Level1Screen", "RENDER !");
-		hud.update();
+		level1.update();
 		mapRenderer.render();
 	}
 

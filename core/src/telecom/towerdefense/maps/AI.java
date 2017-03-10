@@ -1,36 +1,31 @@
 package telecom.towerdefense.maps;
 
 public class AI {
-	
+
 	private Map currentMap = null;
-	
+
 	public AI(Map currentMap) {
 		this.currentMap = currentMap;
 	}
-	
-	private void updateEnemyUnit() {
-		
+
+	public void updateEnemyUnit() {
+
 	}
-	
-	public Map getCurrentMap() {
+
+	public void updateUnit() {
+
+	}
+
+	public void updateBuilding() {
+
+	}
+
+	public Map getMap() {
 		return currentMap;
 	}
 
-	public void setCurrentMap(Map currentMap) {
+	public void setMap(Map currentMap) {
 		this.currentMap = currentMap;
 	}
 
-	private void updateUnit() {
-		
-	}
-	
-	private void updateBuilding() {
-		
-	}
-	
-	public void updateLogic() {
-		this.updateBuilding();
-		this.updateEnemyUnit();
-		this.updateUnit();
-	}	
 }
