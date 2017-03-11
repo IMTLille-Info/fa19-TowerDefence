@@ -9,14 +9,14 @@ public abstract class Entity extends GameObject {
 	protected int damageAttack;
 	protected int xUnit, yUnit;
 
-	public void attack(Entity target) {
+	public void attack(Entity target) throws Throwable {
 		target.takeDamage(damageAttack);
 	}
 
-	public void takeDamage(int damage) {
+	public void takeDamage(int damage) throws Throwable {
 		lifePoint -= damageAttack;
 		if (lifePoint <= 0)
-			destroy();
+			this.finalize();
 	}
 	
 	public boolean isInRange(Entity e) {
@@ -29,7 +29,37 @@ public abstract class Entity extends GameObject {
 		return false;
 	}
 
-	public void destroy() {
-
+	public int getLifePoint() {
+		return lifePoint;
 	}
+
+	public void setLifePoint(int lifePoint) {
+		this.lifePoint = lifePoint;
+	}
+
+	public int getRangeAttack() {
+		return rangeAttack;
+	}
+
+	public void setRangeAttack(int rangeAttack) {
+		this.rangeAttack = rangeAttack;
+	}
+
+	public int getSpeedAttack() {
+		return speedAttack;
+	}
+
+	public void setSpeedAttack(int speedAttack) {
+		this.speedAttack = speedAttack;
+	}
+
+	public int getDamageAttack() {
+		return damageAttack;
+	}
+
+	public void setDamageAttack(int damageAttack) {
+		this.damageAttack = damageAttack;
+	}
+	
+	
 }
