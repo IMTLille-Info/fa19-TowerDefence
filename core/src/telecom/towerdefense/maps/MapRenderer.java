@@ -42,6 +42,11 @@ public class MapRenderer {
 						AssetLoader.TXT_SIZE, AssetLoader.TXT_SIZE);
 			}
 
+		// Nexus
+		Entity nexus = currentMap.getNexus();
+		batch.draw(nexus.getTexture(), nexus.getPosition().x, nexus.getPosition().y, AssetLoader.TXT_SIZE * 2,
+				(nexus.getTexture().getRegionHeight() - AssetLoader.TXT_SIZE) * 2);
+
 		for (Entity building : currentMap.getListPlayerBuilding()) {
 			batch.draw(building.getTexture(), building.getPosition().x, building.getPosition().y, AssetLoader.TXT_SIZE,
 					building.getTexture().getRegionHeight() - AssetLoader.TXT_SIZE);

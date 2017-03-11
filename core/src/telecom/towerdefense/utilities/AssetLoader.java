@@ -16,7 +16,7 @@ public class AssetLoader {
 	public static Texture spriteDesk, enemyDesk;;
 
 	public static TextureRegion txtRoad, txtGround, txtBuilding;
-	public static TextureRegion txtArcherTower, stoneHenge;
+	public static TextureRegion txtArcherTower, stoneHenge, nexus;
 
 	private static int soldierWidth = 64, soldierHeight = 64;
 	private static int soldierKeys = 9;
@@ -64,6 +64,9 @@ public class AssetLoader {
 
 		// Stonehenge
 		stoneHenge = new TextureRegion(spriteDesk, 483, 388, 54, 84);
+
+		// Nexus
+		nexus = new TextureRegion(spriteDesk, 481, 961, 26, 62);
 
 	}
 

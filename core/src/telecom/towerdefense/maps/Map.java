@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import telecom.towerdefense.gameobjects.Entity;
 import telecom.towerdefense.gameobjects.MobileEntity;
 import telecom.towerdefense.gameobjects.building.ArcherTower;
+import telecom.towerdefense.gameobjects.building.Nexus;
 import telecom.towerdefense.gameobjects.building.Stonehenge;
 import telecom.towerdefense.gameobjects.tiles.BuildingTile;
 import telecom.towerdefense.gameobjects.tiles.GroundTile;
@@ -28,6 +29,7 @@ public class Map implements InputProcessor {
 	private List<MobileEntity> listEnemyUnits;
 	private List<Entity> listPlayerBuilding;
 	private AI aI;
+	private Entity nexus;
 
 	public Map() {
 		this.listPlayerUnits = new ArrayList<MobileEntity>();
@@ -57,7 +59,10 @@ public class Map implements InputProcessor {
 					mapArray[x][y] = new BuildingTile();
 					break;
 				case 0x4E: // N
-					mapArray[x][y] = new BuildingTile();
+					mapArray[x][y] = new RoadTile();
+					Entity nexus = new Nexus();
+					nexus.setPosition(new Vector2(x * 32, y * 32));
+					this.nexus = nexus;
 					break;
 				default:
 					mapArray[x][y] = new GroundTile();
@@ -77,6 +82,10 @@ public class Map implements InputProcessor {
 	public void update() {
 		this.aI.updateBuilding();
 		this.aI.updateEnemyUnit();
+	}
+
+	public Entity getNexus() {
+		return nexus;
 	}
 
 	public Tile[][] getMapArray() {
