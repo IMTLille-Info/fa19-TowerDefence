@@ -10,7 +10,7 @@ import telecom.towerdefense.maps.MapRenderer;
 public class Level1Screen implements Screen {
 	private Map level1;
 	private MapRenderer mapRenderer;
-	
+
 	public Level1Screen() {
 		String mapDatas = Gdx.files.internal("level1.map").readString();
 		this.level1 = new Map();
@@ -18,7 +18,7 @@ public class Level1Screen implements Screen {
 		this.mapRenderer = new MapRenderer(level1);
 		Gdx.input.setInputProcessor(level1);
 	}
-	
+
 	@Override
 	public void show() {
 		// TODO Auto-generated method stub

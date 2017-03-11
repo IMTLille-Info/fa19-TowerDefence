@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import telecom.towerdefense.gameobjects.Entity;
 import telecom.towerdefense.gameobjects.MobileEntity;
 import telecom.towerdefense.gameobjects.building.ArcherTower;
+import telecom.towerdefense.gameobjects.building.Stonehenge;
 import telecom.towerdefense.gameobjects.tiles.BuildingTile;
 import telecom.towerdefense.gameobjects.tiles.GroundTile;
 import telecom.towerdefense.gameobjects.tiles.RoadTile;
@@ -66,7 +67,7 @@ public class Map implements InputProcessor {
 				i--;
 			}
 		}
-		
+
 		Soldier soldier = new Soldier();
 		soldier.setPosition(new Vector2(mapArray[0][10].getPosition()));
 		soldier.setDirection(new Vector2(0, -1));
@@ -132,13 +133,15 @@ public class Map implements InputProcessor {
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		int xCase = (int) (screenX / AssetLoader.TXT_SIZE);
 		int yCase = (int) ((Gdx.graphics.getHeight() - screenY) / AssetLoader.TXT_SIZE);
-		
-		if(this.mapArray[xCase][yCase].getClass() == BuildingTile.class) { //Ajout d'un batiment
-			Entity archerTower = new ArcherTower();
-			archerTower.setPosition(this.mapArray[xCase][yCase].getPosition());
-			this.addBuilding(archerTower);
+
+		if (this.mapArray[xCase][yCase].getClass() == BuildingTile.class) { // Ajout
+																			// d'un
+																			// batiment
+			Entity stoneHenge = new Stonehenge();
+			stoneHenge.setPosition(this.mapArray[xCase][yCase].getPosition());
+			this.addBuilding(stoneHenge);
 		}
-		
+
 		return true;
 	}
 
