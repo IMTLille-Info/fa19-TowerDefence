@@ -3,6 +3,7 @@ package telecom.towerdefense.utilities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class AssetLoader {
@@ -16,11 +17,17 @@ public class AssetLoader {
 	
 	public static TextureRegion txtRoad, txtGround, txtBuilding;
 	public static TextureRegion txtArcherTower;
-	public static TextureRegion enemyIdle;
+	
+	private static int soldierWidth = 64, soldierHeight = 64;
+	private static int soldierKeys = 9;
+    private static float animationTime = 2f;
+	public static TextureRegion soldierIdle, soldierKeyTab[][];
+	
+	public static Animation soldierRight, soldierLeft, soldierUp, soldierDown;
 	
 	public static void load() {
 		spriteDesk = new Texture(Gdx.files.internal("Sprite.png")); //Chargement des textures
-		enemyDesk = new Texture(Gdx.files.internal("daxbotsheet.png"));
+		enemyDesk = new Texture(Gdx.files.internal("soldier.png"));
 		spriteDesk.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 		enemyDesk.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 		
@@ -32,7 +39,22 @@ public class AssetLoader {
 		
 		txtArcherTower = new TextureRegion(spriteDesk, 480, 480, TXT_SIZE, TXT_SIZE);
 		
-		enemyIdle = new TextureRegion(enemyDesk, 15, 4, 32, 64);
+		soldierIdle = new TextureRegion(enemyDesk, 16, 206, 33, 47);
+		
+		TextureRegion[][] tmp = TextureRegion.split(enemyDesk, soldierWidth, soldierHeight);
+		soldierKeyTab = new TextureRegion[4][soldierKeys];
+		
+		for(int i = 0; i < soldierKeys; i++) {
+			soldierKeyTab[0][i] = tmp[3][i];
+			soldierKeyTab[1][i] = tmp[1][i];
+			soldierKeyTab[2][i] = tmp[0][i];
+			soldierKeyTab[3][i] = tmp[2][i];
+		}
+		
+		soldierRight = new Animation(animationTime / soldierKeys, soldierKeyTab[0]);
+		soldierLeft = new Animation(animationTime / soldierKeys, soldierKeyTab[1]);
+		soldierUp = new Animation(animationTime / soldierKeys, soldierKeyTab[2]);
+		soldierDown = new Animation(animationTime / soldierKeys, soldierKeyTab[3]);
 		
 	}
 	
