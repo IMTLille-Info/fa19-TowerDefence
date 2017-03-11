@@ -9,7 +9,7 @@ import telecom.towerdefense.utilities.AssetLoader;
 public class Soldier extends MobileEntity {
 	
 	public Soldier() {
-		super();
+		//super();
 		this.texture = AssetLoader.soldierIdle;
 		this.animateRight = AssetLoader.soldierRight;
 		this.animateLeft = AssetLoader.soldierLeft;

@@ -39,7 +39,7 @@ public class AssetLoader {
 		
 		txtArcherTower = new TextureRegion(spriteDesk, 480, 480, TXT_SIZE, TXT_SIZE);
 		
-		soldierIdle = new TextureRegion(enemyDesk, 16, 206, 33, 47);
+		soldierIdle = new TextureRegion(enemyDesk, 16, 206, 64, 64);
 		
 		TextureRegion[][] tmp = TextureRegion.split(enemyDesk, soldierWidth, soldierHeight);
 		soldierKeyTab = new TextureRegion[4][soldierKeys];
@@ -55,6 +55,8 @@ public class AssetLoader {
 		soldierLeft = new Animation(animationTime / soldierKeys, soldierKeyTab[1]);
 		soldierUp = new Animation(animationTime / soldierKeys, soldierKeyTab[2]);
 		soldierDown = new Animation(animationTime / soldierKeys, soldierKeyTab[3]);
+		
+		soldierIdle = new TextureRegion(soldierKeyTab[0][0]);
 		
 	}
 	

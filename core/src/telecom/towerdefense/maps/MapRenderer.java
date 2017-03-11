@@ -46,15 +46,14 @@ public class MapRenderer {
 		}
 		
 		
-		
+		time += Gdx.graphics.getDeltaTime();
 		for(MobileEntity enemyUnit : currentMap.getListEnemyUnits()) {
 			TextureRegion texture;
-			//batch.draw(AssetLoader.soldierRight.getKeyFrame(time, true), enemyUnit.getPosition().x, enemyUnit.getPosition().y, enemyUnit.getTexture().getRegionWidth(), enemyUnit.getTexture().getRegionHeight());
-			if(!enemyUnit.getDirection().isZero()) {
+			if(enemyUnit.getDirection().isZero()) {
 				texture = enemyUnit.getTexture();
 			} else {
-				time += Gdx.graphics.getDeltaTime();
-				texture = (TextureRegion) enemyUnit.getCurrentAnimation().getKeyFrame(time, true);
+				if(enemyUnit.getCurrentAnimation() != null) texture = (TextureRegion) enemyUnit.getCurrentAnimation().getKeyFrame(time, true);
+				else texture = enemyUnit.getTexture();
 			}
 			batch.draw(texture, enemyUnit.getPosition().x, enemyUnit.getPosition().y, enemyUnit.getTexture().getRegionWidth(), enemyUnit.getTexture().getRegionHeight());
 		}

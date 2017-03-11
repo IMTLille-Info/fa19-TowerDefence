@@ -69,6 +69,7 @@ public class Map implements InputProcessor {
 		
 		Soldier soldier = new Soldier();
 		soldier.setPosition(new Vector2(mapArray[0][10].getPosition()));
+		soldier.setDirection(new Vector2(0, -1));
 		this.listEnemyUnits.add(soldier);
 	}
 

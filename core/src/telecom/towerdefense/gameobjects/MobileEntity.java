@@ -14,7 +14,17 @@ public abstract class MobileEntity extends Entity {
 	}
 	
 	public Animation getCurrentAnimation() {
-		return this.animateRight;
+		direction.nor();
+		if(direction.x == 1 && direction.y == 0)
+			return this.animateRight;
+		else if(direction.x == 0 && direction.y == 1)
+			return this.animateUp;
+		else if(direction.x == -1 && direction.y == 0)
+			return this.animateLeft;
+		else if(direction.x == 0 && direction.y == -1)
+			return this.animateDown;
+		
+		return null;
 	}
 	
 	public Vector2 getDirection() {
