@@ -30,9 +30,9 @@ public class EntityTest {
 		Entity a = new Stonehenge();
 		Entity b = new Soldier();
 		try {
-			b.attack(a);
+			b.attack(a); //Soldier attaque Stonhenge, 10-2
 			
-			assertEquals(8, a.getLifePoint());
+			assertEquals(8, a.getLifePoint()); //8 = vie du stonhenge
 			
 		} catch (Throwable e) {
 			
@@ -46,7 +46,7 @@ public class EntityTest {
 		try {
 			a.attack(b);			
 		} catch (Throwable e) {
-			assertTrue(true);
+			assertTrue(true); //Soldier est detruit, on récupère l'exception levé par la destruction de l'objet
 		}
 	}
 }
