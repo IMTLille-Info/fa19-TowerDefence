@@ -7,11 +7,11 @@ import telecom.towerdefense.game.TowerDefense;
 import telecom.towerdefense.utilities.AssetLoader;
 
 public class DesktopLauncher {
-	public static void main (String[] arg) {
+	public static void main(String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = 960;
 		config.height = 640;
-		//config.resizable = false;
+		// config.resizable = false;
 		new LwjglApplication(new TowerDefense(), config);
 		Gdx.app.debug("DesktopLauncher", "Game launched !");
 	}

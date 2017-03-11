@@ -5,12 +5,12 @@ public abstract class Entity extends GameObject {
 	protected int rangeAttack;
 	protected int speedAttack;
 	protected int damageAttack;
-	
+
 	public void attack(Entity target) {
-		
+
 	}
-	
+
 	public void destroy() {
-		
+
 	}
 }

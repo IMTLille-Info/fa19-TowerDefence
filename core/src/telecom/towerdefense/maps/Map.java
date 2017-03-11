@@ -5,7 +5,10 @@ import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import telecom.towerdefense.gameobjects.Entity;
 import telecom.towerdefense.gameobjects.MobileEntity;
@@ -21,6 +24,7 @@ public class Map implements InputProcessor {
 
 	protected final int Tile_WIDTH = 30;
 	protected final int Tile_HEIGHT = 20;
+	private OrthographicCamera camera;
 
 	protected Tile[][] mapArray;
 	private List<MobileEntity> listPlayerUnits;
@@ -34,6 +38,16 @@ public class Map implements InputProcessor {
 		this.listPlayerBuilding = new ArrayList<Entity>();
 		this.mapArray = new Tile[Tile_WIDTH][Tile_HEIGHT];
 		this.aI = new AI(this);
+
+	}
+
+	public Map(OrthographicCamera camera) {
+		this.listPlayerUnits = new ArrayList<MobileEntity>();
+		this.listEnemyUnits = new ArrayList<MobileEntity>();
+		this.listPlayerBuilding = new ArrayList<Entity>();
+		this.mapArray = new Tile[Tile_WIDTH][Tile_HEIGHT];
+		this.aI = new AI(this);
+		this.camera = camera;
 	}
 
 	public void loadLevel(String mapDatas) {
@@ -66,7 +80,7 @@ public class Map implements InputProcessor {
 				i--;
 			}
 		}
-		
+
 		Soldier soldier = new Soldier();
 		soldier.setPosition(new Vector2(mapArray[0][10].getPosition()));
 		this.listEnemyUnits.add(soldier);
@@ -109,6 +123,9 @@ public class Map implements InputProcessor {
 		return Tile_HEIGHT;
 	}
 
+	Vector3 tp = new Vector3();
+	boolean dragging;
+
 	@Override
 	public boolean keyDown(int keycode) {
 		this.listPlayerBuilding.clear();
@@ -129,16 +146,16 @@ public class Map implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		int xCase = (int) (screenX / AssetLoader.TXT_SIZE);
-		int yCase = (int) ((Gdx.graphics.getHeight() - screenY) / AssetLoader.TXT_SIZE);
-		
-		if(this.mapArray[xCase][yCase].getClass() == BuildingTile.class) { //Ajout d'un batiment
+		camera.unproject(tp.set(screenX, screenY, 0));
+		if (this.mapArray[(int) tp.x][(int) tp.y].getClass() == BuildingTile.class) { // Ajout
+																						// d'un
+																						// batiment
 			Entity archerTower = new ArcherTower();
-			archerTower.setPosition(this.mapArray[xCase][yCase].getPosition());
+			archerTower.setPosition(this.mapArray[(int) tp.x][(int) tp.y].getPosition());
 			this.addBuilding(archerTower);
 		}
-		
-		return true;
+
+		return false;
 	}
 
 	private void addBuilding(Entity building) {
