@@ -1,5 +1,6 @@
 package telecom.towerdefense.gameobjects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
 
@@ -11,6 +12,20 @@ public abstract class MobileEntity extends Entity {
 	public MobileEntity() {
 		direction = new Vector2(0, 0);
 		speed = 1;
+	}
+	
+	public void move() {
+		if(!direction.isZero()) {
+			direction.nor();
+			if(direction.x == 1 && direction.y == 0) //Vers la droite
+				position.x += (speed * Gdx.graphics.getDeltaTime());
+			else if (direction.x == -1 && direction.y == 0)
+				position.x -= (speed * Gdx.graphics.getDeltaTime());
+			else if (direction.x == 0 && direction.y == 1)
+				position.y += (speed * Gdx.graphics.getDeltaTime());
+			else if (direction.x == 0 && direction.y == -1)
+				position.y -= (speed * Gdx.graphics.getDeltaTime());
+		}
 	}
 
 	public Animation getCurrentAnimation() {
