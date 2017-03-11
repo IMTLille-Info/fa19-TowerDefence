@@ -60,7 +60,7 @@ public class Map implements InputProcessor {
 					break;
 				case 0x4E: // N
 					mapArray[x][y] = new RoadTile();
-					Entity nexus = new Nexus();
+					Entity nexus = new Nexus(); //Création du nexus
 					nexus.setPosition(new Vector2(x * 32, y * 32));
 					this.nexus = nexus;
 					break;
@@ -74,9 +74,13 @@ public class Map implements InputProcessor {
 		}
 
 		Soldier soldier = new Soldier();
+		Soldier soldier2 = new Soldier();
 		soldier.setPosition(new Vector2(mapArray[0][10].getPosition()));
-		soldier.setDirection(new Vector2(0, -1));
+		soldier.setDirection(new Vector2(1, 0));
 		this.listEnemyUnits.add(soldier);
+		soldier2.setPosition(new Vector2(mapArray[0][11].getPosition()));
+		soldier2.setDirection(new Vector2(1, 0));
+		this.listEnemyUnits.add(soldier2);
 	}
 
 	public void update() {

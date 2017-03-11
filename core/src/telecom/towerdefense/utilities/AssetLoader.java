@@ -66,7 +66,7 @@ public class AssetLoader {
 		stoneHenge = new TextureRegion(spriteDesk, 483, 388, 54, 84);
 
 		// Nexus
-		nexus = new TextureRegion(spriteDesk, 481, 961, 26, 62);
+		nexus = new TextureRegion(spriteDesk, 929, 903, 94, 120);
 
 	}
 
