@@ -42,7 +42,7 @@ public class Level1Screen implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		mapRenderer.resize(width, height);
+
 	}
 
 	@Override

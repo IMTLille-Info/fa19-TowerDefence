@@ -13,6 +13,8 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import telecom.towerdefense.gameobjects.Entity;
 import telecom.towerdefense.gameobjects.MobileEntity;
 import telecom.towerdefense.gameobjects.building.ArcherTower;
+import telecom.towerdefense.gameobjects.building.Nexus;
+import telecom.towerdefense.gameobjects.building.Stonehenge;
 import telecom.towerdefense.gameobjects.tiles.BuildingTile;
 import telecom.towerdefense.gameobjects.tiles.GroundTile;
 import telecom.towerdefense.gameobjects.tiles.RoadTile;
@@ -31,6 +33,7 @@ public class Map implements InputProcessor {
 	private List<MobileEntity> listEnemyUnits;
 	private List<Entity> listPlayerBuilding;
 	private AI aI;
+	private Entity nexus;
 
 	public Map() {
 		this.listPlayerUnits = new ArrayList<MobileEntity>();
@@ -70,7 +73,10 @@ public class Map implements InputProcessor {
 					mapArray[x][y] = new BuildingTile();
 					break;
 				case 0x4E: // N
-					mapArray[x][y] = new BuildingTile();
+					mapArray[x][y] = new RoadTile();
+					Entity nexus = new Nexus(); //Création du nexus
+					nexus.setPosition(new Vector2(x * 32, y * 32));
+					this.nexus = nexus;
 					break;
 				default:
 					mapArray[x][y] = new GroundTile();
@@ -82,13 +88,22 @@ public class Map implements InputProcessor {
 		}
 
 		Soldier soldier = new Soldier();
+		Soldier soldier2 = new Soldier();
 		soldier.setPosition(new Vector2(mapArray[0][10].getPosition()));
+		soldier.setDirection(new Vector2(1, 0));
 		this.listEnemyUnits.add(soldier);
+		soldier2.setPosition(new Vector2(mapArray[0][11].getPosition()));
+		soldier2.setDirection(new Vector2(1, 0));
+		this.listEnemyUnits.add(soldier2);
 	}
 
 	public void update() {
 		this.aI.updateBuilding();
 		this.aI.updateEnemyUnit();
+	}
+
+	public Entity getNexus() {
+		return nexus;
 	}
 
 	public Tile[][] getMapArray() {
@@ -150,12 +165,12 @@ public class Map implements InputProcessor {
 		if (this.mapArray[(int) tp.x][(int) tp.y].getClass() == BuildingTile.class) { // Ajout
 																						// d'un
 																						// batiment
-			Entity archerTower = new ArcherTower();
-			archerTower.setPosition(this.mapArray[(int) tp.x][(int) tp.y].getPosition());
-			this.addBuilding(archerTower);
+			Entity stoneHenge = new Stonehenge();
+			stoneHenge.setPosition(this.mapArray[(int) tp.x][(int) tp.y].getPosition());
+			this.addBuilding(stoneHenge);
 		}
 
-		return false;
+		return true;
 	}
 
 	private void addBuilding(Entity building) {

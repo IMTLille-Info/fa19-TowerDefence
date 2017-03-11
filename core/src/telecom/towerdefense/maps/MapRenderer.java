@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import telecom.towerdefense.gameobjects.Entity;
 import telecom.towerdefense.gameobjects.MobileEntity;
@@ -14,11 +14,12 @@ import telecom.towerdefense.utilities.AssetLoader;
 public class MapRenderer {
 	private SpriteBatch batch;
 	private Map currentMap;
+	private float time;
 
 	public MapRenderer(Map currentMap) {
 		this.currentMap = currentMap;
 		batch = new SpriteBatch();
-
+		time = 0.0f;
 	}
 
 	public void render() {
@@ -34,14 +35,29 @@ public class MapRenderer {
 						AssetLoader.TXT_SIZE, AssetLoader.TXT_SIZE);
 			}
 
+		// Nexus
+		Entity nexus = currentMap.getNexus();
+		batch.draw(nexus.getTexture(), nexus.getPosition().x, nexus.getPosition().y, AssetLoader.TXT_SIZE * 2,
+				(nexus.getTexture().getRegionHeight() - AssetLoader.TXT_SIZE) * 2);
+
 		for (Entity building : currentMap.getListPlayerBuilding()) {
 			batch.draw(building.getTexture(), building.getPosition().x, building.getPosition().y, AssetLoader.TXT_SIZE,
-					AssetLoader.TXT_SIZE);
+					building.getTexture().getRegionHeight() - AssetLoader.TXT_SIZE);
 		}
 
+		time += Gdx.graphics.getDeltaTime();
 		for (MobileEntity enemyUnit : currentMap.getListEnemyUnits()) {
-			batch.draw(enemyUnit.getTexture(), enemyUnit.getPosition().x, enemyUnit.getPosition().y,
-					enemyUnit.getTexture().getRegionWidth(), enemyUnit.getTexture().getRegionHeight());
+			TextureRegion texture;
+			if (enemyUnit.getDirection().isZero()) {
+				texture = enemyUnit.getTexture();
+			} else {
+				if (enemyUnit.getCurrentAnimation() != null)
+					texture = (TextureRegion) enemyUnit.getCurrentAnimation().getKeyFrame(time, true);
+				else
+					texture = enemyUnit.getTexture();
+			}
+			batch.draw(texture, enemyUnit.getPosition().x, enemyUnit.getPosition().y, AssetLoader.TXT_SIZE,
+					enemyUnit.getTexture().getRegionHeight() - AssetLoader.TXT_SIZE);
 		}
 
 		batch.end();
