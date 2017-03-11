@@ -20,7 +20,7 @@ public class AssetLoader {
 
 	private static int soldierWidth = 64, soldierHeight = 64;
 	private static int soldierKeys = 9;
-	private static float animationTime = 2f;
+	private static float animationTime = 1.5f;
 	public static TextureRegion soldierIdle, soldierKeyTab[][];
 
 	public static Animation soldierRight, soldierLeft, soldierUp, soldierDown;
