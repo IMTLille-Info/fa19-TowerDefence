@@ -143,7 +143,15 @@ public class Map implements InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		this.listPlayerBuilding.clear();
+		if(!listPlayerBuilding.isEmpty()) {
+			if(listEnemyUnits.size() > 0) {
+				try {
+					listPlayerBuilding.get(0).attack(listEnemyUnits.get(listEnemyUnits.size() -1));
+				} catch (Exception e) {
+					listEnemyUnits.remove(listEnemyUnits.get(listEnemyUnits.size() - 1));
+				}
+			}
+		}
 		return true;
 	}
 

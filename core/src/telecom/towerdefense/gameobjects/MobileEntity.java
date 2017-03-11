@@ -19,11 +19,11 @@ public abstract class MobileEntity extends Entity {
 			direction.nor();
 			if(direction.x == 1 && direction.y == 0) //Vers la droite
 				position.x += (speed * Gdx.graphics.getDeltaTime());
-			else if (direction.x == -1 && direction.y == 0)
+			else if (direction.x == -1 && direction.y == 0) //Vers la gauche
 				position.x -= (speed * Gdx.graphics.getDeltaTime());
-			else if (direction.x == 0 && direction.y == 1)
+			else if (direction.x == 0 && direction.y == 1) //Vers le haut
 				position.y += (speed * Gdx.graphics.getDeltaTime());
-			else if (direction.x == 0 && direction.y == -1)
+			else if (direction.x == 0 && direction.y == -1) //Vers le bas
 				position.y -= (speed * Gdx.graphics.getDeltaTime());
 		}
 	}

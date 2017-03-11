@@ -9,14 +9,18 @@ public abstract class Entity extends GameObject {
 	protected int damageAttack;
 	protected int xUnit, yUnit;
 
-	public void attack(Entity target) throws Throwable {
-		target.takeDamage(damageAttack);
+	public void attack(Entity target) throws Exception {
+		//target.takeDamage(damageAttack);
+		int newLife = target.getLifePoint() - damageAttack;
+		if (newLife <= 0)
+			throw new Exception();
+		target.setLifePoint(newLife);
 	}
 
-	public void takeDamage(int damage) throws Throwable {
+	public void takeDamage(int damage) throws Exception {
 		lifePoint -= damageAttack;
 		if (lifePoint <= 0)
-			this.finalize();
+			throw new Exception();
 	}
 	
 	public boolean isInRange(Entity e) {
