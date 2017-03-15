@@ -10,15 +10,15 @@ public abstract class Entity extends GameObject {
 	protected int xUnit, yUnit;
 
 	public void attack(Entity target) throws Exception {
-		//target.takeDamage(damageAttack);
-		int newLife = target.getLifePoint() - damageAttack;
+		target.takeDamage(damageAttack);
+		/*int newLife = target.getLifePoint() - damageAttack;
 		if (newLife <= 0)
 			throw new Exception();
-		target.setLifePoint(newLife);
+		target.setLifePoint(newLife);*/
 	}
 
 	public void takeDamage(int damage) throws Exception {
-		lifePoint -= damageAttack;
+		lifePoint -= damage;
 		if (lifePoint <= 0)
 			throw new Exception();
 	}

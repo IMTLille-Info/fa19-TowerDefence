@@ -45,7 +45,7 @@ public class MapRenderer {
 					building.getTexture().getRegionHeight() - AssetLoader.TXT_SIZE);
 		}
 
-		time += Gdx.graphics.getDeltaTime();
+		time += Gdx.graphics.getDeltaTime(); //Time pour les animations
 		for (MobileEntity enemyUnit : currentMap.getListEnemyUnits()) {
 			TextureRegion texture;
 			if (enemyUnit.getDirection().isZero()) {
