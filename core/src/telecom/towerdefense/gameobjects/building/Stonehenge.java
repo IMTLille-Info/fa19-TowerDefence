@@ -8,7 +8,7 @@ public class Stonehenge extends Entity {
 		this.texture = AssetLoader.stoneHenge;
 		this.damageAttack = 5;
 		this.speedAttack = 1;
-		this.rangeAttack = 3;
+		this.rangeAttack = 5;
 		this.lifePoint = 10;
 	}
 }

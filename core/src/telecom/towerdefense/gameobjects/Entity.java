@@ -1,5 +1,7 @@
 package telecom.towerdefense.gameobjects;
 
+import java.sql.Timestamp;
+
 import telecom.towerdefense.game.TowerDefense;
 
 public abstract class Entity extends GameObject {
@@ -8,9 +10,19 @@ public abstract class Entity extends GameObject {
 	protected int speedAttack;
 	protected int damageAttack;
 	protected int xUnit, yUnit;
+	
+	private Timestamp lastAttackTime = null;
 
 	public void attack(Entity target) throws Exception {
-		target.takeDamage(damageAttack);
+		if(lastAttackTime == null) {
+			lastAttackTime = new Timestamp(System.currentTimeMillis());
+		}
+		
+		if((System.currentTimeMillis() - lastAttackTime.getTime()) >= (speedAttack * 1000f)) {
+			target.takeDamage(damageAttack);
+			lastAttackTime = new Timestamp(System.currentTimeMillis());
+		}
+		
 		/*int newLife = target.getLifePoint() - damageAttack;
 		if (newLife <= 0)
 			throw new Exception();
