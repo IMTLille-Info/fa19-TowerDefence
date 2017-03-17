@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import telecom.towerdefense.gameobjects.Entity;
 import telecom.towerdefense.gameobjects.MobileEntity;
@@ -15,10 +16,12 @@ public class MapRenderer {
 	private SpriteBatch batch;
 	private Map currentMap;
 	private float time;
+	private ShapeRenderer shapeRenderer; //Pour les tests
 
 	public MapRenderer(Map currentMap) {
 		this.currentMap = currentMap;
 		batch = new SpriteBatch();
+		shapeRenderer = new ShapeRenderer();
 		time = 0.0f;
 	}
 
@@ -45,7 +48,7 @@ public class MapRenderer {
 					building.getTexture().getRegionHeight() - AssetLoader.TXT_SIZE);
 		}
 
-		time += Gdx.graphics.getDeltaTime(); //Time pour les animations
+		time += Gdx.graphics.getDeltaTime(); // Time pour les animations
 		for (MobileEntity enemyUnit : currentMap.getListEnemyUnits()) {
 			TextureRegion texture;
 			if (enemyUnit.getDirection().isZero()) {
@@ -58,9 +61,16 @@ public class MapRenderer {
 			}
 			batch.draw(texture, enemyUnit.getPosition().x, enemyUnit.getPosition().y, AssetLoader.TXT_SIZE,
 					enemyUnit.getTexture().getRegionHeight() - AssetLoader.TXT_SIZE);
+			
+			
 		}
 
 		batch.end();
+		
+		/*shapeRenderer.setAutoShapeType(true);
+		shapeRenderer.begin();
+		shapeRenderer.rect(map[29][19].getPosition().x, map[29][19].getPosition().y, 32, 32);
+		shapeRenderer.end();*/
 	}
 
 	public void resize(int width, int height) {

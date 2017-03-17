@@ -10,23 +10,23 @@ public abstract class Entity extends GameObject {
 	protected int speedAttack;
 	protected int damageAttack;
 	protected int xUnit, yUnit;
-	
+
 	private Timestamp lastAttackTime = null;
 
 	public void attack(Entity target) throws Exception {
-		if(lastAttackTime == null) {
+		if (lastAttackTime == null) {
 			lastAttackTime = new Timestamp(System.currentTimeMillis());
 		}
-		
-		if((System.currentTimeMillis() - lastAttackTime.getTime()) >= (speedAttack * 1000f)) {
+
+		if ((System.currentTimeMillis() - lastAttackTime.getTime()) >= (speedAttack * 1000f)) {
 			target.takeDamage(damageAttack);
 			lastAttackTime = new Timestamp(System.currentTimeMillis());
 		}
-		
-		/*int newLife = target.getLifePoint() - damageAttack;
-		if (newLife <= 0)
-			throw new Exception();
-		target.setLifePoint(newLife);*/
+
+		/*
+		 * int newLife = target.getLifePoint() - damageAttack; if (newLife <= 0)
+		 * throw new Exception(); target.setLifePoint(newLife);
+		 */
 	}
 
 	public void takeDamage(int damage) throws Exception {
@@ -34,14 +34,15 @@ public abstract class Entity extends GameObject {
 		if (lifePoint <= 0)
 			throw new Exception();
 	}
-	
+
 	public boolean isInRange(Entity e) {
-		float x = this.position.x; //Position de l'entity attaquant
+		float x = this.position.x; // Position de l'entity attaquant
 		float y = this.position.y;
-		
-		if((Math.abs(x - e.position.x) <= (TowerDefense.SCALE * this.rangeAttack)) && (Math.abs(y - e.position.y) <= (TowerDefense.SCALE * this.rangeAttack)))
+
+		if ((Math.abs(x - e.position.x) <= (TowerDefense.SCALE * this.rangeAttack))
+				&& (Math.abs(y - e.position.y) <= (TowerDefense.SCALE * this.rangeAttack)))
 			return true;
-		
+
 		return false;
 	}
 
@@ -76,6 +77,5 @@ public abstract class Entity extends GameObject {
 	public void setDamageAttack(int damageAttack) {
 		this.damageAttack = damageAttack;
 	}
-	
-	
+
 }

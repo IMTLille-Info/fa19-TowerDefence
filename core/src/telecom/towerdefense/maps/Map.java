@@ -74,8 +74,8 @@ public class Map implements InputProcessor {
 					break;
 				case 0x4E: // N
 					mapArray[x][y] = new RoadTile();
-					Entity nexus = new Nexus(); //Création du nexus
-					nexus.setPosition(new Vector2(x * 32, y * 32));
+					Entity nexus = new Nexus(); // Création du nexus
+					nexus.setPosition(new Vector2(x * AssetLoader.TXT_SIZE, y * AssetLoader.TXT_SIZE));
 					this.nexus = nexus;
 					break;
 				default:
@@ -143,16 +143,7 @@ public class Map implements InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		if(!listPlayerBuilding.isEmpty()) {
-			if(listEnemyUnits.size() > 0) {
-				try {
-					listPlayerBuilding.get(0).attack(listEnemyUnits.get(listEnemyUnits.size() -1));
-				} catch (Exception e) {
-					listEnemyUnits.remove(listEnemyUnits.get(listEnemyUnits.size() - 1));
-				}
-			}
-		}
-		return true;
+		return false;
 	}
 
 	@Override
@@ -169,16 +160,48 @@ public class Map implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		camera.unproject(tp.set(screenX, screenY, 0));
-		if (this.mapArray[(int) tp.x][(int) tp.y].getClass() == BuildingTile.class) { // Ajout
+		if (getClassForPosition(screenX, screenY) == BuildingTile.class) { // Ajout
 																						// d'un
 																						// batiment
 			Entity stoneHenge = new Stonehenge();
-			stoneHenge.setPosition(this.mapArray[(int) tp.x][(int) tp.y].getPosition());
+			stoneHenge.setPosition(getTileAtPosition(screenX, screenY).getPosition());
 			this.addBuilding(stoneHenge);
 		}
 
 		return true;
+	}
+	
+	public Class<?> getClassForPosition(float x, float y) {
+		camera.unproject(tp.set(x, y, 0));
+		return this.mapArray[(int) tp.x][(int) tp.y].getClass();		
+	}
+	
+	public Tile getTileAtPosition(float x, float y) {
+		camera.unproject(tp.set(x, y, 0));
+		return this.mapArray[(int) tp.x][(int) tp.y];
+	}
+	
+	public List<Tile> getNeighborsTiles(float x, float y) {
+		camera.unproject(tp.set(x, y, 0)); //Pour gestion du resize de la fenetre
+		List<Tile> neighborsTiles = new ArrayList<Tile>();
+		//Récupération des index de la Map
+		int xKey = (int) tp.x;
+		int yKey = (int) tp.y;
+		
+		//Récupération de la Tile au centre
+		//Tile centerTile = mapArray[xKey][yKey];
+		
+		if(yKey == 0) { 
+			if(xKey == 0) { //En bas à gauche
+				
+			} else if (xKey == Tile_WIDTH - 1) { //En bas à droite
+				
+			}	
+		} else if (xKey == 0) {
+			
+		}
+			
+		return neighborsTiles;
 	}
 
 	private void addBuilding(Entity building) {

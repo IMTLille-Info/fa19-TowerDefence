@@ -1,29 +1,39 @@
 package telecom.towerdefense.gameobjects;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
+
+import telecom.towerdefense.gameobjects.tiles.Tile;
+import telecom.towerdefense.maps.Map;
 
 public abstract class MobileEntity extends Entity {
 	protected Vector2 direction;
 	protected double speed;
 	protected Animation animateLeft, animateRight, animateUp, animateDown, animateAttack;
+	private List<Vector2> path;
 
 	public MobileEntity() {
 		direction = new Vector2(0, 0);
 		speed = 1;
+		path = new ArrayList<Vector2>();
 	}
-	
+
 	public void move() {
-		if(!direction.isZero()) {
+		if (!direction.isZero()) {
 			direction.nor();
-			if(direction.x == 1 && direction.y == 0) //Vers la droite
+			if (direction.x == 1 && direction.y == 0) // Vers la droite
 				position.x += (speed * Gdx.graphics.getDeltaTime());
-			else if (direction.x == -1 && direction.y == 0) //Vers la gauche
+			else if (direction.x == -1 && direction.y == 0) // Vers la gauche
 				position.x -= (speed * Gdx.graphics.getDeltaTime());
-			else if (direction.x == 0 && direction.y == 1) //Vers le haut
+			else if (direction.x == 0 && direction.y == 1) // Vers le haut
 				position.y += (speed * Gdx.graphics.getDeltaTime());
-			else if (direction.x == 0 && direction.y == -1) //Vers le bas
+			else if (direction.x == 0 && direction.y == -1) // Vers le bas
 				position.y -= (speed * Gdx.graphics.getDeltaTime());
 		}
 	}
@@ -39,6 +49,20 @@ public abstract class MobileEntity extends Entity {
 		else if (direction.x == 0 && direction.y == -1)
 			return this.animateDown;
 
+		return null;
+	}
+	
+	public List<Vector2> generatePath(Map currentMap) {
+		//Initialisation de l'algorithme de pathfinding
+		List<Tile> frontier = new ArrayList<Tile>();
+		frontier.add(currentMap.getTileAtPosition(position.x, position.y));
+		HashMap<Vector2, Vector2> came_from = new HashMap<Vector2, Vector2>();
+		came_from.put(this.position, null);
+		
+		while(!frontier.isEmpty()) { //Tq frontier n'est pas vide
+			
+		}
+		
 		return null;
 	}
 

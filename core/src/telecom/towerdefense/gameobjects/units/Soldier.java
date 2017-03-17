@@ -15,8 +15,8 @@ public class Soldier extends MobileEntity {
 		this.animateLeft = AssetLoader.soldierLeft;
 		this.animateUp = AssetLoader.soldierUp;
 		this.animateDown = AssetLoader.soldierDown;
-		
-		this.speed = 3;
+
+		this.speed = 8;
 		this.damageAttack = 2;
 		this.lifePoint = 15;
 		this.rangeAttack = 1;
