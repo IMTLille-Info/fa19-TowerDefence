@@ -151,8 +151,8 @@ public class Map implements InputProcessor {
 		 * " : x = " + tile.getPosition().x / 32 + ", y = " +
 		 * tile.getPosition().y / 32); }
 		 */
-		//this.aI.updateMobileEntityPath();
-		//System.out.println("Calcul path OK !");
+		// this.aI.updateMobileEntityPath();
+		// System.out.println("Calcul path OK !");
 		return true;
 	}
 

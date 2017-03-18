@@ -6,10 +6,19 @@ import telecom.towerdefense.game.TowerDefense;
 
 public abstract class Entity extends GameObject {
 	protected int lifePoint;
+	protected int maxLifePoint;
 	protected int rangeAttack;
 	protected int speedAttack;
 	protected int damageAttack;
 	protected int xUnit, yUnit;
+
+	public int getxUnit() {
+		return xUnit;
+	}
+
+	public int getyUnit() {
+		return yUnit;
+	}
 
 	private Timestamp lastAttackTime = null;
 
@@ -77,5 +86,11 @@ public abstract class Entity extends GameObject {
 	public void setDamageAttack(int damageAttack) {
 		this.damageAttack = damageAttack;
 	}
+
+	public int getMaxLifePoint() {
+		return maxLifePoint;
+	}
+	
+	
 
 }

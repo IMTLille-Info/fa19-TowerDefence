@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class AssetLoader {
 
 	public final static int TXT_SIZE = 32;
+	public final static int LIFEBAR_HEIGHT = 5;
+	public final static int LIFEBAR_WIDTH = TXT_SIZE;
 	// public final static int SCREEN_WIDTH = 960;
 	// public final static int SCREEN_HEIGHT = 640;
 	// public final static float TXT_SCALE = 1f / TXT_SIZE;
@@ -23,7 +25,7 @@ public class AssetLoader {
 	private static float animationTime = 1.5f;
 	public static TextureRegion soldierIdle, soldierKeyTab[][];
 
-	public static Animation soldierRight, soldierLeft, soldierUp, soldierDown;
+	public static Animation<TextureRegion> soldierRight, soldierLeft, soldierUp, soldierDown;
 
 	public static void load() {
 		spriteDesk = new Texture(Gdx.files.internal("Sprite.png")); // Chargement
@@ -55,10 +57,10 @@ public class AssetLoader {
 			soldierKeyTab[3][i] = tmp[2][i];
 		}
 
-		soldierRight = new Animation(animationTime / soldierKeys, soldierKeyTab[0]);
-		soldierLeft = new Animation(animationTime / soldierKeys, soldierKeyTab[1]);
-		soldierUp = new Animation(animationTime / soldierKeys, soldierKeyTab[2]);
-		soldierDown = new Animation(animationTime / soldierKeys, soldierKeyTab[3]);
+		soldierRight = new Animation<TextureRegion>(animationTime / soldierKeys, soldierKeyTab[0]);
+		soldierLeft = new Animation<TextureRegion>(animationTime / soldierKeys, soldierKeyTab[1]);
+		soldierUp = new Animation<TextureRegion>(animationTime / soldierKeys, soldierKeyTab[2]);
+		soldierDown = new Animation<TextureRegion>(animationTime / soldierKeys, soldierKeyTab[3]);
 
 		soldierIdle = new TextureRegion(soldierKeyTab[0][0]);
 

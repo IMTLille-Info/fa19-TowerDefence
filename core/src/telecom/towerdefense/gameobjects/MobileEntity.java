@@ -36,7 +36,7 @@ public abstract class MobileEntity extends Entity {
 
 	}
 
-	public Animation getCurrentAnimation() {
+	public Animation<?> getCurrentAnimation() {
 		direction.nor();
 		if (direction.x == 1 && direction.y == 0)
 			return this.animateRight;
