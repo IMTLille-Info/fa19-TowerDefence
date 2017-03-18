@@ -41,7 +41,7 @@ public class AI {
 				List<Tile> neighborsTiles = currentMap.getNeighborsTiles(currentTile);
 				for (Tile tile : neighborsTiles) {
 					if (!cameFrom.containsKey(tile)) {
-						float priority = heuristique(goalTile.getPosition(), tile.getPosition());
+						float priority = distance(goalTile.getPosition(), tile.getPosition());
 						frontier.put(tile, priority);
 						cameFrom.put(tile, currentTile);
 					}
@@ -58,7 +58,7 @@ public class AI {
 		}
 	}
 
-	private float heuristique(Vector2 a, Vector2 b) {
+	private float distance(Vector2 a, Vector2 b) {
 		return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 	}
 
