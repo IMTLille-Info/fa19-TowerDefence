@@ -1,7 +1,6 @@
 package telecom.towerdefense.maps;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
@@ -9,11 +8,9 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import telecom.towerdefense.gameobjects.Entity;
 import telecom.towerdefense.gameobjects.MobileEntity;
-import telecom.towerdefense.gameobjects.building.ArcherTower;
 import telecom.towerdefense.gameobjects.building.Nexus;
 import telecom.towerdefense.gameobjects.building.Stonehenge;
 import telecom.towerdefense.gameobjects.tiles.BuildingTile;
@@ -99,9 +96,10 @@ public class Map implements InputProcessor {
 	}
 
 	public void update() {
-		
+
 		this.aI.updateBuilding();
 		this.aI.updateEnemyUnit();
+		this.aI.updateMobileEntityPath();
 	}
 
 	public Entity getNexus() {
@@ -145,16 +143,16 @@ public class Map implements InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		/*Tile current = mapArray[7][11];
-		List<Tile> neighbors = getNeighborsTiles(current);
-		if (neighbors.size() == 0)
-			System.out.println("Pas de tile voisins");
-		for (Tile tile : neighbors) {
-			System.out.println("Case " + neighbors.indexOf(tile) + " : x = " + tile.getPosition().x / 32 + ", y = "
-					+ tile.getPosition().y / 32);
-		}*/
-		this.aI.updateMobileEntityPath();
-		System.out.println("Calcul path OK !");
+		/*
+		 * Tile current = mapArray[7][11]; List<Tile> neighbors =
+		 * getNeighborsTiles(current); if (neighbors.size() == 0)
+		 * System.out.println("Pas de tile voisins"); for (Tile tile :
+		 * neighbors) { System.out.println("Case " + neighbors.indexOf(tile) +
+		 * " : x = " + tile.getPosition().x / 32 + ", y = " +
+		 * tile.getPosition().y / 32); }
+		 */
+		//this.aI.updateMobileEntityPath();
+		//System.out.println("Calcul path OK !");
 		return true;
 	}
 
@@ -185,12 +183,12 @@ public class Map implements InputProcessor {
 	}
 
 	public Class<?> getClassForPosition(float x, float y) {
-		//camera.unproject(tp.set(x, y, 0));
+		// camera.unproject(tp.set(x, y, 0));
 		return this.mapArray[(int) x / AssetLoader.TXT_SIZE][(int) y / AssetLoader.TXT_SIZE].getClass();
 	}
 
 	public Tile getTileAtPosition(float x, float y) {
-		//camera.unproject(tp.set(x, y, 0));
+		// camera.unproject(tp.set(x, y, 0));
 		return this.mapArray[(int) x / AssetLoader.TXT_SIZE][(int) y / AssetLoader.TXT_SIZE];
 	}
 
@@ -279,8 +277,8 @@ public class Map implements InputProcessor {
 			if (mapArray[xKey - 1][yKey].getClass() == RoadTile.class)
 				neighorsTiles.add(mapArray[xKey - 1][yKey]);
 		}
-	
-	return neighorsTiles;
+
+		return neighorsTiles;
 
 	}
 

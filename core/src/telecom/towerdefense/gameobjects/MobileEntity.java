@@ -1,8 +1,6 @@
 package telecom.towerdefense.gameobjects;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
@@ -10,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
 
 import telecom.towerdefense.gameobjects.tiles.Tile;
-import telecom.towerdefense.maps.Map;
 
 public abstract class MobileEntity extends Entity {
 	protected Vector2 direction;
@@ -36,7 +33,7 @@ public abstract class MobileEntity extends Entity {
 			else if (direction.x == 0 && direction.y == -1) // Vers le bas
 				position.y -= (speed * Gdx.graphics.getDeltaTime());
 		}
-		
+
 	}
 
 	public Animation getCurrentAnimation() {
@@ -76,6 +73,5 @@ public abstract class MobileEntity extends Entity {
 	public List<Tile> getPath() {
 		return path;
 	}
-	
-	
+
 }

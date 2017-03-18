@@ -1,8 +1,5 @@
 package telecom.towerdefense.gameobjects.units;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
-
-import telecom.towerdefense.gameobjects.Entity;
 import telecom.towerdefense.gameobjects.MobileEntity;
 import telecom.towerdefense.utilities.AssetLoader;
 
@@ -16,7 +13,7 @@ public class Soldier extends MobileEntity {
 		this.animateUp = AssetLoader.soldierUp;
 		this.animateDown = AssetLoader.soldierDown;
 
-		this.speed = 8;
+		this.speed = 50;
 		this.damageAttack = 2;
 		this.lifePoint = 15;
 		this.rangeAttack = 1;

@@ -4,10 +4,10 @@ import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 import telecom.towerdefense.gameobjects.Entity;
 import telecom.towerdefense.gameobjects.MobileEntity;
@@ -18,7 +18,7 @@ public class MapRenderer {
 	private SpriteBatch batch;
 	private Map currentMap;
 	private float time;
-	private ShapeRenderer shapeRenderer; //Pour les tests
+	private ShapeRenderer shapeRenderer; // Pour les tests
 
 	public MapRenderer(Map currentMap) {
 		this.currentMap = currentMap;
@@ -63,17 +63,18 @@ public class MapRenderer {
 			}
 			batch.draw(texture, enemyUnit.getPosition().x, enemyUnit.getPosition().y, AssetLoader.TXT_SIZE,
 					enemyUnit.getTexture().getRegionHeight() - AssetLoader.TXT_SIZE);
-			
-			
+
 		}
 
 		batch.end();
-		
+
 		shapeRenderer.setAutoShapeType(true);
+		
 		shapeRenderer.begin();
+		shapeRenderer.set(ShapeType.Filled);
 		List<Tile> path = currentMap.getListEnemyUnits().get(0).getPath();
-		for(Tile t : path) {
-			shapeRenderer.circle(t.getPosition().x, t.getPosition().y, 2.0f);
+		for (Tile t : path) {
+			shapeRenderer.circle(t.getPosition().x, t.getPosition().y, 3.0f);
 		}
 		shapeRenderer.end();
 	}
