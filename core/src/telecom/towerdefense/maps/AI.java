@@ -3,6 +3,7 @@ package telecom.towerdefense.maps;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Stack;
 
 import com.badlogic.gdx.Gdx;
@@ -26,24 +27,32 @@ public class AI {
 		Entity nexus = currentMap.getNexus();
 		for (MobileEntity enemy : currentMap.getListEnemyUnits()) {
 			List<Tile> path = new ArrayList<Tile>();
-			Stack<Tile> frontier= new Stack<Tile>();
+			ArrayMap<Tile, Float> frontier= new ArrayMap<Tile, Float>();
 			Tile startTile = currentMap.getTileAtPosition(enemy.getPosition().x, enemy.getPosition().y);
+			Tile goalTile = currentMap.getTileAtPosition(nexus.getPosition().x, nexus.getPosition().y);
 			ArrayMap<Tile, Tile> cameFrom = new ArrayMap<Tile, Tile>();
+			ArrayMap<Tile, Tile> cost_so_far = new ArrayMap<Tile, Tile>();
+			Tile currentTile = startTile;
 			
-			frontier.push(startTile);
+			frontier.put(startTile, 0f);
 			cameFrom.put(startTile, null);
-			while(!frontier.isEmpty()) {
-				Tile currentTile = frontier.pop();
+			cost_so_far.put(startTile, null);
+			
+			while(frontier.size > 0 && currentTile != goalTile) {
+				currentTile = frontier.firstKey();
+				frontier.removeKey(frontier.firstKey());
+				
 				List<Tile> neighborsTiles = currentMap.getNeighborsTiles(currentTile);
 				for (Tile tile : neighborsTiles) {
 					if(!cameFrom.containsKey(tile)) {
-						frontier.push(tile);
+						float priority = heuristique(goalTile.getPosition(), tile.getPosition());
+						frontier.put(tile, priority);
 						cameFrom.put(tile, currentTile);
 					}
 				}
 			}
 			
-			Tile currentTile = currentMap.getTileAtPosition(nexus.getPosition().x, nexus.getPosition().y);
+			currentTile = goalTile;
 			path.add(currentTile);
 			while(currentTile != startTile) {
 				currentTile = cameFrom.get(currentTile);
@@ -51,6 +60,10 @@ public class AI {
 			}
 			enemy.setPath(path);
 		}
+	}
+	
+	private float heuristique(Vector2 a, Vector2 b) {
+		return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 	}
 	
 

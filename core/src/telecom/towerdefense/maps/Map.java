@@ -172,6 +172,7 @@ public class Map implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		screenY = Gdx.graphics.getHeight() - screenY;
 		if (getClassForPosition(screenX, screenY) == BuildingTile.class) { // Ajout
 																			// d'un
 																			// batiment

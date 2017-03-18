@@ -11,7 +11,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = 960;
 		config.height = 640;
-		// config.resizable = false;
+		config.resizable = false;
 		new LwjglApplication(new TowerDefense(), config);
 		Gdx.app.debug("DesktopLauncher", "Game launched !");
 	}
