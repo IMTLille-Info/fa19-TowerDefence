@@ -1,5 +1,7 @@
 package telecom.towerdefense.maps;
 
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -67,10 +69,13 @@ public class MapRenderer {
 
 		batch.end();
 		
-		/*shapeRenderer.setAutoShapeType(true);
+		shapeRenderer.setAutoShapeType(true);
 		shapeRenderer.begin();
-		shapeRenderer.rect(map[29][19].getPosition().x, map[29][19].getPosition().y, 32, 32);
-		shapeRenderer.end();*/
+		List<Tile> path = currentMap.getListEnemyUnits().get(0).getPath();
+		for(Tile t : path) {
+			shapeRenderer.circle(t.getPosition().x, t.getPosition().y, 2.0f);
+		}
+		shapeRenderer.end();
 	}
 
 	public void resize(int width, int height) {

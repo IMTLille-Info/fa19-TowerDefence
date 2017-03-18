@@ -1,6 +1,7 @@
 package telecom.towerdefense.maps;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
@@ -98,6 +99,7 @@ public class Map implements InputProcessor {
 	}
 
 	public void update() {
+		
 		this.aI.updateBuilding();
 		this.aI.updateEnemyUnit();
 	}
@@ -143,7 +145,17 @@ public class Map implements InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		return false;
+		/*Tile current = mapArray[7][11];
+		List<Tile> neighbors = getNeighborsTiles(current);
+		if (neighbors.size() == 0)
+			System.out.println("Pas de tile voisins");
+		for (Tile tile : neighbors) {
+			System.out.println("Case " + neighbors.indexOf(tile) + " : x = " + tile.getPosition().x / 32 + ", y = "
+					+ tile.getPosition().y / 32);
+		}*/
+		this.aI.updateMobileEntityPath();
+		System.out.println("Calcul path OK !");
+		return true;
 	}
 
 	@Override
@@ -161,8 +173,8 @@ public class Map implements InputProcessor {
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		if (getClassForPosition(screenX, screenY) == BuildingTile.class) { // Ajout
-																						// d'un
-																						// batiment
+																			// d'un
+																			// batiment
 			Entity stoneHenge = new Stonehenge();
 			stoneHenge.setPosition(getTileAtPosition(screenX, screenY).getPosition());
 			this.addBuilding(stoneHenge);
@@ -170,38 +182,105 @@ public class Map implements InputProcessor {
 
 		return true;
 	}
-	
+
 	public Class<?> getClassForPosition(float x, float y) {
-		camera.unproject(tp.set(x, y, 0));
-		return this.mapArray[(int) tp.x][(int) tp.y].getClass();		
+		//camera.unproject(tp.set(x, y, 0));
+		return this.mapArray[(int) x / AssetLoader.TXT_SIZE][(int) y / AssetLoader.TXT_SIZE].getClass();
 	}
-	
+
 	public Tile getTileAtPosition(float x, float y) {
-		camera.unproject(tp.set(x, y, 0));
-		return this.mapArray[(int) tp.x][(int) tp.y];
+		//camera.unproject(tp.set(x, y, 0));
+		return this.mapArray[(int) x / AssetLoader.TXT_SIZE][(int) y / AssetLoader.TXT_SIZE];
 	}
-	
-	public List<Tile> getNeighborsTiles(float x, float y) {
-		camera.unproject(tp.set(x, y, 0)); //Pour gestion du resize de la fenetre
-		List<Tile> neighborsTiles = new ArrayList<Tile>();
-		//Récupération des index de la Map
-		int xKey = (int) tp.x;
-		int yKey = (int) tp.y;
-		
-		//Récupération de la Tile au centre
-		//Tile centerTile = mapArray[xKey][yKey];
-		
-		if(yKey == 0) { 
-			if(xKey == 0) { //En bas à gauche
-				
-			} else if (xKey == Tile_WIDTH - 1) { //En bas à droite
-				
-			}	
-		} else if (xKey == 0) {
-			
+
+	public List<Tile> getNeighborsTiles(Tile current) {
+		// camera.unproject(tp.set(current.getPosition().x,
+		// current.getPosition().y, 0));
+		int xKey = (int) current.getPosition().x / 32;
+		int yKey = (int) current.getPosition().y / 32;
+		Vector2 currentKeys = new Vector2(xKey, yKey);
+		List<Tile> neighorsTiles = new ArrayList<Tile>();
+
+		// ensemble des index des coins de la map
+		List<Vector2> coinKeys = new ArrayList<Vector2>(4);
+		coinKeys.add(0, new Vector2(0, 0)); // Bas gauche
+		coinKeys.add(1, new Vector2(0, Tile_HEIGHT - 1)); // Haut gauche
+		coinKeys.add(2, new Vector2(Tile_WIDTH - 1, 0)); // Bas droite
+		coinKeys.add(3, new Vector2(Tile_HEIGHT - 1, Tile_WIDTH - 1)); // Haut
+																		// droite
+
+		// ensemble des index des côtés
+		List<Vector2> sideKeys = new ArrayList<Vector2>(4);
+		sideKeys.add(0, new Vector2(xKey, 0)); // Coté bas
+		sideKeys.add(1, new Vector2(xKey, Tile_HEIGHT - 1)); // Coté haut
+		sideKeys.add(2, new Vector2(Tile_WIDTH - 1, yKey)); // coté droit
+		sideKeys.add(3, new Vector2(0, yKey)); // coté gauche
+
+		if (coinKeys.contains(currentKeys)) {
+			if (coinKeys.get(0).x == xKey && coinKeys.get(0).y == yKey) {
+				if (mapArray[xKey + 1][yKey].getClass() == RoadTile.class)
+					neighorsTiles.add(mapArray[xKey + 1][yKey]);
+				if (mapArray[xKey][yKey + 1].getClass() == RoadTile.class)
+					neighorsTiles.add(mapArray[xKey][yKey + 1]);
+			} else if (coinKeys.get(1).x == xKey && coinKeys.get(1).y == yKey) {
+				if (mapArray[xKey + 1][yKey].getClass() == RoadTile.class)
+					neighorsTiles.add(mapArray[xKey + 1][yKey]);
+				if (mapArray[xKey][yKey - 1].getClass() == RoadTile.class)
+					neighorsTiles.add(mapArray[xKey][yKey - 1]);
+			} else if (coinKeys.get(2).x == xKey && coinKeys.get(2).y == yKey) {
+				if (mapArray[xKey - 1][yKey].getClass() == RoadTile.class)
+					neighorsTiles.add(mapArray[xKey - 1][yKey]);
+				if (mapArray[xKey][yKey + 1].getClass() == RoadTile.class)
+					neighorsTiles.add(mapArray[xKey][yKey + 1]);
+			} else if (coinKeys.get(3).x == xKey && coinKeys.get(3).y == yKey) {
+				if (mapArray[xKey - 1][yKey].getClass() == RoadTile.class)
+					neighorsTiles.add(mapArray[xKey - 1][yKey]);
+				if (mapArray[xKey][yKey - 1].getClass() == RoadTile.class)
+					neighorsTiles.add(mapArray[xKey][yKey - 1]);
+			}
+		} else if (sideKeys.contains(currentKeys)) {
+			if (sideKeys.get(0).x == xKey && sideKeys.get(0).y == yKey) {
+				if (mapArray[xKey + 1][yKey].getClass() == RoadTile.class)
+					neighorsTiles.add(mapArray[xKey + 1][yKey]);
+				if (mapArray[xKey][yKey + 1].getClass() == RoadTile.class)
+					neighorsTiles.add(mapArray[xKey][yKey + 1]);
+				if (mapArray[xKey - 1][yKey].getClass() == RoadTile.class)
+					neighorsTiles.add(mapArray[xKey - 1][yKey]);
+			} else if (sideKeys.get(1).x == xKey && sideKeys.get(1).y == yKey) {
+				if (mapArray[xKey + 1][yKey].getClass() == RoadTile.class)
+					neighorsTiles.add(mapArray[xKey + 1][yKey]);
+				if (mapArray[xKey][yKey - 1].getClass() == RoadTile.class)
+					neighorsTiles.add(mapArray[xKey][yKey - 1]);
+				if (mapArray[xKey - 1][yKey].getClass() == RoadTile.class)
+					neighorsTiles.add(mapArray[xKey - 1][yKey]);
+			} else if (sideKeys.get(2).x == xKey && sideKeys.get(2).y == yKey) {
+				if (mapArray[xKey - 1][yKey].getClass() == RoadTile.class)
+					neighorsTiles.add(mapArray[xKey - 1][yKey]);
+				if (mapArray[xKey][yKey + 1].getClass() == RoadTile.class)
+					neighorsTiles.add(mapArray[xKey][yKey + 1]);
+				if (mapArray[xKey][yKey - 1].getClass() == RoadTile.class)
+					neighorsTiles.add(mapArray[xKey][yKey - 1]);
+			} else if (sideKeys.get(3).x == xKey && sideKeys.get(3).y == yKey) {
+				if (mapArray[xKey + 1][yKey].getClass() == RoadTile.class)
+					neighorsTiles.add(mapArray[xKey + 1][yKey]);
+				if (mapArray[xKey][yKey + 1].getClass() == RoadTile.class)
+					neighorsTiles.add(mapArray[xKey][yKey + 1]);
+				if (mapArray[xKey][yKey - 1].getClass() == RoadTile.class)
+					neighorsTiles.add(mapArray[xKey][yKey - 1]);
+			}
+		} else {
+			if (mapArray[xKey + 1][yKey].getClass() == RoadTile.class)
+				neighorsTiles.add(mapArray[xKey + 1][yKey]);
+			if (mapArray[xKey][yKey + 1].getClass() == RoadTile.class)
+				neighorsTiles.add(mapArray[xKey][yKey + 1]);
+			if (mapArray[xKey][yKey - 1].getClass() == RoadTile.class)
+				neighorsTiles.add(mapArray[xKey][yKey - 1]);
+			if (mapArray[xKey - 1][yKey].getClass() == RoadTile.class)
+				neighorsTiles.add(mapArray[xKey - 1][yKey]);
 		}
-			
-		return neighborsTiles;
+	
+	return neighorsTiles;
+
 	}
 
 	private void addBuilding(Entity building) {

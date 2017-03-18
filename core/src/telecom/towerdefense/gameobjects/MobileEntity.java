@@ -16,12 +16,12 @@ public abstract class MobileEntity extends Entity {
 	protected Vector2 direction;
 	protected double speed;
 	protected Animation animateLeft, animateRight, animateUp, animateDown, animateAttack;
-	private List<Vector2> path;
+	private List<Tile> path;
 
 	public MobileEntity() {
 		direction = new Vector2(0, 0);
 		speed = 1;
-		path = new ArrayList<Vector2>();
+		path = new ArrayList<Tile>();
 	}
 
 	public void move() {
@@ -36,6 +36,7 @@ public abstract class MobileEntity extends Entity {
 			else if (direction.x == 0 && direction.y == -1) // Vers le bas
 				position.y -= (speed * Gdx.graphics.getDeltaTime());
 		}
+		
 	}
 
 	public Animation getCurrentAnimation() {
@@ -49,20 +50,6 @@ public abstract class MobileEntity extends Entity {
 		else if (direction.x == 0 && direction.y == -1)
 			return this.animateDown;
 
-		return null;
-	}
-	
-	public List<Vector2> generatePath(Map currentMap) {
-		//Initialisation de l'algorithme de pathfinding
-		List<Tile> frontier = new ArrayList<Tile>();
-		frontier.add(currentMap.getTileAtPosition(position.x, position.y));
-		HashMap<Vector2, Vector2> came_from = new HashMap<Vector2, Vector2>();
-		came_from.put(this.position, null);
-		
-		while(!frontier.isEmpty()) { //Tq frontier n'est pas vide
-			
-		}
-		
 		return null;
 	}
 
@@ -81,4 +68,14 @@ public abstract class MobileEntity extends Entity {
 	public void setSpeed(double speed) {
 		this.speed = speed;
 	}
+
+	public void setPath(List<Tile> path) {
+		this.path = path;
+	}
+
+	public List<Tile> getPath() {
+		return path;
+	}
+	
+	
 }

@@ -13,11 +13,11 @@ public class Level1Screen implements Screen {
 	private MapRenderer mapRenderer;
 
 	public Level1Screen() {
-		String mapDatas = Gdx.files.internal("level1.map").readString();
+		/*String mapDatas = Gdx.files.internal("level1.map").readString();
 		this.level1 = new Map();
 		this.level1.loadLevel(mapDatas);
 		this.mapRenderer = new MapRenderer(level1);
-		Gdx.input.setInputProcessor(level1);
+		Gdx.input.setInputProcessor(level1);*/
 	}
 
 	public Level1Screen(OrthographicCamera camera) {
