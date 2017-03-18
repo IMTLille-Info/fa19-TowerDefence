@@ -3,6 +3,7 @@ package telecom.towerdefense.maps;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -61,7 +62,7 @@ public class MapRenderer {
 				else
 					texture = enemyUnit.getTexture();
 			}
-			batch.draw(texture, enemyUnit.getPosition().x, enemyUnit.getPosition().y, AssetLoader.TXT_SIZE,
+			batch.draw(texture, enemyUnit.getPosition().x, enemyUnit.getPosition().y + (AssetLoader.TXT_SIZE / 2), AssetLoader.TXT_SIZE,
 					enemyUnit.getTexture().getRegionHeight() - AssetLoader.TXT_SIZE);
 
 		}
@@ -72,10 +73,16 @@ public class MapRenderer {
 		
 		shapeRenderer.begin();
 		shapeRenderer.set(ShapeType.Filled);
-		List<Tile> path = currentMap.getListEnemyUnits().get(0).getPath();
-		for (Tile t : path) {
-			shapeRenderer.circle(t.getPosition().x, t.getPosition().y, 3.0f);
+		int i = 0;
+		for(MobileEntity enemy : currentMap.getListEnemyUnits()) {
+			shapeRenderer.setColor(i * 10, i * 10, i * 10, 0);
+			List<Tile> path = enemy.getPath();
+			for (Tile t : path) {
+				shapeRenderer.circle(t.getPosition().x, t.getPosition().y, 3.0f);
+			}
+			i++;
 		}
+		
 		shapeRenderer.end();
 	}
 
