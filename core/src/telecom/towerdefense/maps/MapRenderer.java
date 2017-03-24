@@ -79,9 +79,9 @@ public class MapRenderer {
 		int i = 0;
 		for (MobileEntity enemy : currentMap.getListEnemyUnits()) {
 			shapeRenderer.setColor(i * 10, i * 10, i * 10, 0);
-			List<Tile> path = enemy.getPath();
-			for (Tile t : path) {
-				shapeRenderer.circle(t.getPosition().x, t.getPosition().y, 3.0f);
+			List<Vector2> path = enemy.getPath();
+			for (Vector2 t : path) {
+				shapeRenderer.circle(t.x, t.y, 3.0f);
 			}
 			i++;
 		}

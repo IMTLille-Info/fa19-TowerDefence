@@ -13,12 +13,12 @@ public abstract class MobileEntity extends Entity {
 	protected Vector2 direction;
 	protected double speed;
 	protected Animation animateLeft, animateRight, animateUp, animateDown, animateAttack;
-	private List<Tile> path;
+	private List<Vector2> path;
 
 	public MobileEntity() {
 		direction = new Vector2(0, 0);
 		speed = 1;
-		path = new ArrayList<Tile>();
+		path = new ArrayList<Vector2>();
 	}
 
 	public void move() {
@@ -66,11 +66,11 @@ public abstract class MobileEntity extends Entity {
 		this.speed = speed;
 	}
 
-	public void setPath(List<Tile> path) {
+	public void setPath(List<Vector2> path) {
 		this.path = path;
 	}
 
-	public List<Tile> getPath() {
+	public List<Vector2> getPath() {
 		return path;
 	}
 

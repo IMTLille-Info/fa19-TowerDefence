@@ -192,13 +192,14 @@ public class Map implements InputProcessor {
 		return this.mapArray[(int) x / AssetLoader.TXT_SIZE][(int) y / AssetLoader.TXT_SIZE];
 	}
 
-	public List<Tile> getNeighborsTiles(Tile current) {
+	public List<Vector2> getNeighborsTiles(Vector2 positionTile) {
 		// camera.unproject(tp.set(current.getPosition().x,
 		// current.getPosition().y, 0));
+		Tile current = getTileAtPosition(positionTile.x, positionTile.y);
 		int xKey = (int) current.getPosition().x / 32;
 		int yKey = (int) current.getPosition().y / 32;
 		Vector2 currentKeys = new Vector2(xKey, yKey);
-		List<Tile> neighorsTiles = new ArrayList<Tile>();
+		List<Vector2> neighorsTiles = new ArrayList<Vector2>();
 
 		// ensemble des index des coins de la map
 		List<Vector2> coinKeys = new ArrayList<Vector2>(4);
@@ -218,64 +219,64 @@ public class Map implements InputProcessor {
 		if (coinKeys.contains(currentKeys)) {
 			if (coinKeys.get(0).x == xKey && coinKeys.get(0).y == yKey) {
 				if (mapArray[xKey + 1][yKey].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey + 1][yKey]);
+					neighorsTiles.add(mapArray[xKey + 1][yKey].getPosition());
 				if (mapArray[xKey][yKey + 1].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey][yKey + 1]);
+					neighorsTiles.add(mapArray[xKey][yKey + 1].getPosition());
 			} else if (coinKeys.get(1).x == xKey && coinKeys.get(1).y == yKey) {
 				if (mapArray[xKey + 1][yKey].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey + 1][yKey]);
+					neighorsTiles.add(mapArray[xKey + 1][yKey].getPosition());
 				if (mapArray[xKey][yKey - 1].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey][yKey - 1]);
+					neighorsTiles.add(mapArray[xKey][yKey - 1].getPosition());
 			} else if (coinKeys.get(2).x == xKey && coinKeys.get(2).y == yKey) {
 				if (mapArray[xKey - 1][yKey].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey - 1][yKey]);
+					neighorsTiles.add(mapArray[xKey - 1][yKey].getPosition());
 				if (mapArray[xKey][yKey + 1].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey][yKey + 1]);
+					neighorsTiles.add(mapArray[xKey][yKey + 1].getPosition());
 			} else if (coinKeys.get(3).x == xKey && coinKeys.get(3).y == yKey) {
 				if (mapArray[xKey - 1][yKey].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey - 1][yKey]);
+					neighorsTiles.add(mapArray[xKey - 1][yKey].getPosition());
 				if (mapArray[xKey][yKey - 1].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey][yKey - 1]);
+					neighorsTiles.add(mapArray[xKey][yKey - 1].getPosition());
 			}
 		} else if (sideKeys.contains(currentKeys)) {
 			if (sideKeys.get(0).x == xKey && sideKeys.get(0).y == yKey) {
 				if (mapArray[xKey + 1][yKey].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey + 1][yKey]);
+					neighorsTiles.add(mapArray[xKey + 1][yKey].getPosition());
 				if (mapArray[xKey][yKey + 1].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey][yKey + 1]);
+					neighorsTiles.add(mapArray[xKey][yKey + 1].getPosition());
 				if (mapArray[xKey - 1][yKey].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey - 1][yKey]);
+					neighorsTiles.add(mapArray[xKey - 1][yKey].getPosition());
 			} else if (sideKeys.get(1).x == xKey && sideKeys.get(1).y == yKey) {
 				if (mapArray[xKey + 1][yKey].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey + 1][yKey]);
+					neighorsTiles.add(mapArray[xKey + 1][yKey].getPosition());
 				if (mapArray[xKey][yKey - 1].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey][yKey - 1]);
+					neighorsTiles.add(mapArray[xKey][yKey - 1].getPosition());
 				if (mapArray[xKey - 1][yKey].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey - 1][yKey]);
+					neighorsTiles.add(mapArray[xKey - 1][yKey].getPosition());
 			} else if (sideKeys.get(2).x == xKey && sideKeys.get(2).y == yKey) {
 				if (mapArray[xKey - 1][yKey].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey - 1][yKey]);
+					neighorsTiles.add(mapArray[xKey - 1][yKey].getPosition());
 				if (mapArray[xKey][yKey + 1].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey][yKey + 1]);
+					neighorsTiles.add(mapArray[xKey][yKey + 1].getPosition());
 				if (mapArray[xKey][yKey - 1].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey][yKey - 1]);
+					neighorsTiles.add(mapArray[xKey][yKey - 1].getPosition());
 			} else if (sideKeys.get(3).x == xKey && sideKeys.get(3).y == yKey) {
 				if (mapArray[xKey + 1][yKey].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey + 1][yKey]);
+					neighorsTiles.add(mapArray[xKey + 1][yKey].getPosition());
 				if (mapArray[xKey][yKey + 1].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey][yKey + 1]);
+					neighorsTiles.add(mapArray[xKey][yKey + 1].getPosition());
 				if (mapArray[xKey][yKey - 1].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey][yKey - 1]);
+					neighorsTiles.add(mapArray[xKey][yKey - 1].getPosition());
 			}
 		} else {
 			if (mapArray[xKey + 1][yKey].getClass() == RoadTile.class)
-				neighorsTiles.add(mapArray[xKey + 1][yKey]);
+				neighorsTiles.add(mapArray[xKey + 1][yKey].getPosition());
 			if (mapArray[xKey][yKey + 1].getClass() == RoadTile.class)
-				neighorsTiles.add(mapArray[xKey][yKey + 1]);
+				neighorsTiles.add(mapArray[xKey][yKey + 1].getPosition());
 			if (mapArray[xKey][yKey - 1].getClass() == RoadTile.class)
-				neighorsTiles.add(mapArray[xKey][yKey - 1]);
+				neighorsTiles.add(mapArray[xKey][yKey - 1].getPosition());
 			if (mapArray[xKey - 1][yKey].getClass() == RoadTile.class)
-				neighorsTiles.add(mapArray[xKey - 1][yKey]);
+				neighorsTiles.add(mapArray[xKey - 1][yKey].getPosition());
 		}
 
 		return neighorsTiles;

@@ -24,12 +24,12 @@ public class AI {
 
 		Entity nexus = currentMap.getNexus();
 		for (MobileEntity enemy : currentMap.getListEnemyUnits()) {
-			List<Tile> path = new ArrayList<Tile>();
-			ArrayMap<Tile, Float> frontier = new ArrayMap<Tile, Float>();
-			Tile startTile = currentMap.getTileAtPosition(enemy.getPosition().x, enemy.getPosition().y);
-			Tile goalTile = currentMap.getTileAtPosition(nexus.getPosition().x, nexus.getPosition().y);
-			ArrayMap<Tile, Tile> cameFrom = new ArrayMap<Tile, Tile>();
-			Tile currentTile = startTile;
+			List<Vector2> path = new ArrayList<Vector2>();
+			ArrayMap<Vector2, Float> frontier = new ArrayMap<Vector2, Float>();
+			Vector2 startTile = enemy.getPosition();
+			Vector2 goalTile = nexus.getPosition();
+			ArrayMap<Vector2, Vector2> cameFrom = new ArrayMap<Vector2, Vector2>();
+			Vector2 currentTile = startTile;
 
 			frontier.put(startTile, 0f);
 			cameFrom.put(startTile, null);
@@ -38,10 +38,10 @@ public class AI {
 				currentTile = frontier.firstKey();
 				frontier.removeKey(frontier.firstKey());
 
-				List<Tile> neighborsTiles = currentMap.getNeighborsTiles(currentTile);
-				for (Tile tile : neighborsTiles) {
+				List<Vector2> neighborsTiles = currentMap.getNeighborsTiles(currentTile);
+				for (Vector2 tile : neighborsTiles) {
 					if (!cameFrom.containsKey(tile)) {
-						float priority = distance(goalTile.getPosition(), tile.getPosition());
+						float priority = distance(goalTile, tile);
 						frontier.put(tile, priority);
 						cameFrom.put(tile, currentTile);
 					}
@@ -65,7 +65,7 @@ public class AI {
 	public void updateEnemyUnit() {
 		for (MobileEntity enemy : currentMap.getListEnemyUnits()) {
 			// Mise à jour de la direction en fonction de la path
-			List<Tile> path = enemy.getPath();
+			/*List<Tile> path = enemy.getPath();
 			if ((path.size() > 1)) {
 				if ((int) (path.get(path.size() - 2).getPosition().x / AssetLoader.TXT_SIZE)
 						- (int) (enemy.getPosition().x / AssetLoader.TXT_SIZE) >= 1)
@@ -80,7 +80,7 @@ public class AI {
 			} else
 				enemy.setDirection(new Vector2(0, 0));
 
-			// Mise à jour de la position en fonction de la direction
+			// Mise à jour de la position en fonction de la direction*/
 			enemy.move();
 		}
 	}
