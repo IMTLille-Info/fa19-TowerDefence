@@ -26,33 +26,33 @@ public class AI {
 		for (MobileEntity enemy : currentMap.getListEnemyUnits()) {
 			List<Vector2> path = new ArrayList<Vector2>();
 			ArrayMap<Vector2, Float> frontier = new ArrayMap<Vector2, Float>();
-			Vector2 startTile = enemy.getPosition();
-			Vector2 goalTile = nexus.getPosition();
+			Vector2 startPos = enemy.getPosition();
+			Vector2 goalPos = nexus.getPosition();
 			ArrayMap<Vector2, Vector2> cameFrom = new ArrayMap<Vector2, Vector2>();
-			Vector2 currentTile = startTile;
+			Vector2 currentPos = startPos;
 
-			frontier.put(startTile, 0f);
-			cameFrom.put(startTile, null);
+			frontier.put(startPos, 0f);
+			cameFrom.put(startPos, null);
 
-			while (frontier.size > 0 && currentTile != goalTile) {
-				currentTile = frontier.firstKey();
+			while (frontier.size > 0 && currentPos != goalPos) {
+				currentPos = frontier.firstKey();
 				frontier.removeKey(frontier.firstKey());
 
-				List<Vector2> neighborsTiles = currentMap.getNeighborsTiles(currentTile);
+				List<Vector2> neighborsTiles = currentMap.getNeighborsTiles(currentPos, 32);
 				for (Vector2 tile : neighborsTiles) {
 					if (!cameFrom.containsKey(tile)) {
-						float priority = distance(goalTile, tile);
+						float priority = distance(goalPos, tile);
 						frontier.put(tile, priority);
-						cameFrom.put(tile, currentTile);
+						cameFrom.put(tile, currentPos);
 					}
 				}
 			}
 
-			currentTile = goalTile;
-			path.add(currentTile);
-			while (currentTile != startTile) {
-				currentTile = cameFrom.get(currentTile);
-				path.add(currentTile);
+			currentPos = goalPos;
+			path.add(currentPos);
+			while (currentPos != startPos) {
+				currentPos = cameFrom.get(currentPos);
+				path.add(currentPos);
 			}
 			enemy.setPath(path);
 		}
@@ -65,22 +65,9 @@ public class AI {
 	public void updateEnemyUnit() {
 		for (MobileEntity enemy : currentMap.getListEnemyUnits()) {
 			// Mise à jour de la direction en fonction de la path
-			/*List<Tile> path = enemy.getPath();
-			if ((path.size() > 1)) {
-				if ((int) (path.get(path.size() - 2).getPosition().x / AssetLoader.TXT_SIZE)
-						- (int) (enemy.getPosition().x / AssetLoader.TXT_SIZE) >= 1)
-					enemy.setDirection(new Vector2(1, 0));
-				else if ((int) (path.get(path.size() - 2).getPosition().y / AssetLoader.TXT_SIZE)
-						- (int) (enemy.getPosition().y / AssetLoader.TXT_SIZE) >= 1)
-					enemy.setDirection(new Vector2(0, 1));
-				else if ((int) (path.get(path.size() - 2).getPosition().y / AssetLoader.TXT_SIZE)
-						- (int) ((enemy.getPosition().y) / AssetLoader.TXT_SIZE) <= -1)
-					enemy.setDirection(new Vector2(0, -1));
 
-			} else
-				enemy.setDirection(new Vector2(0, 0));
 
-			// Mise à jour de la position en fonction de la direction*/
+			// Mise à jour de la position en fonction de la direction
 			enemy.move();
 		}
 	}

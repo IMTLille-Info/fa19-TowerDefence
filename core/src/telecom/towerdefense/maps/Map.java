@@ -93,13 +93,14 @@ public class Map implements InputProcessor {
 		soldier2.setPosition(new Vector2(mapArray[0][11].getPosition()));
 		soldier2.setDirection(new Vector2(1, 0));
 		this.listEnemyUnits.add(soldier2);
+		this.aI.updateMobileEntityPath();
 	}
 
 	public void update() {
-
+		
 		this.aI.updateBuilding();
 		this.aI.updateEnemyUnit();
-		this.aI.updateMobileEntityPath();
+		
 	}
 
 	public Entity getNexus() {
@@ -192,93 +193,93 @@ public class Map implements InputProcessor {
 		return this.mapArray[(int) x / AssetLoader.TXT_SIZE][(int) y / AssetLoader.TXT_SIZE];
 	}
 
-	public List<Vector2> getNeighborsTiles(Vector2 positionTile) {
+	public List<Vector2> getNeighborsTiles(Vector2 positionTile, int precision) {
 		// camera.unproject(tp.set(current.getPosition().x,
 		// current.getPosition().y, 0));
-		Tile current = getTileAtPosition(positionTile.x, positionTile.y);
-		int xKey = (int) current.getPosition().x / 32;
-		int yKey = (int) current.getPosition().y / 32;
-		Vector2 currentKeys = new Vector2(xKey, yKey);
+		
+		float xPos = positionTile.x;
+		float yPos = positionTile.y;
+		Vector2 currentPos = new Vector2(xPos, yPos);
 		List<Vector2> neighorsTiles = new ArrayList<Vector2>();
 
 		// ensemble des index des coins de la map
 		List<Vector2> coinKeys = new ArrayList<Vector2>(4);
 		coinKeys.add(0, new Vector2(0, 0)); // Bas gauche
-		coinKeys.add(1, new Vector2(0, Tile_HEIGHT - 1)); // Haut gauche
-		coinKeys.add(2, new Vector2(Tile_WIDTH - 1, 0)); // Bas droite
-		coinKeys.add(3, new Vector2(Tile_HEIGHT - 1, Tile_WIDTH - 1)); // Haut
-																		// droite
+		coinKeys.add(1, new Vector2(0, Gdx.graphics.getHeight() - precision)); // Haut gauche
+		coinKeys.add(2, new Vector2(Gdx.graphics.getWidth() - precision, 0)); // Bas droite
+		coinKeys.add(3, new Vector2(Gdx.graphics.getHeight() - precision, Gdx.graphics.getWidth() - precision)); // Haut
+																								// droite
 
 		// ensemble des index des côtés
 		List<Vector2> sideKeys = new ArrayList<Vector2>(4);
-		sideKeys.add(0, new Vector2(xKey, 0)); // Coté bas
-		sideKeys.add(1, new Vector2(xKey, Tile_HEIGHT - 1)); // Coté haut
-		sideKeys.add(2, new Vector2(Tile_WIDTH - 1, yKey)); // coté droit
-		sideKeys.add(3, new Vector2(0, yKey)); // coté gauche
+		sideKeys.add(0, new Vector2(xPos, 0)); // Coté bas
+		sideKeys.add(1, new Vector2(xPos, Gdx.graphics.getHeight() - precision)); // Coté haut
+		sideKeys.add(2, new Vector2(Gdx.graphics.getWidth() - precision, yPos)); // coté droit
+		sideKeys.add(3, new Vector2(0, yPos)); // coté gauche
 
-		if (coinKeys.contains(currentKeys)) {
-			if (coinKeys.get(0).x == xKey && coinKeys.get(0).y == yKey) {
-				if (mapArray[xKey + 1][yKey].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey + 1][yKey].getPosition());
-				if (mapArray[xKey][yKey + 1].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey][yKey + 1].getPosition());
-			} else if (coinKeys.get(1).x == xKey && coinKeys.get(1).y == yKey) {
-				if (mapArray[xKey + 1][yKey].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey + 1][yKey].getPosition());
-				if (mapArray[xKey][yKey - 1].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey][yKey - 1].getPosition());
-			} else if (coinKeys.get(2).x == xKey && coinKeys.get(2).y == yKey) {
-				if (mapArray[xKey - 1][yKey].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey - 1][yKey].getPosition());
-				if (mapArray[xKey][yKey + 1].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey][yKey + 1].getPosition());
-			} else if (coinKeys.get(3).x == xKey && coinKeys.get(3).y == yKey) {
-				if (mapArray[xKey - 1][yKey].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey - 1][yKey].getPosition());
-				if (mapArray[xKey][yKey - 1].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey][yKey - 1].getPosition());
+		if (coinKeys.contains(currentPos)) {
+			if (coinKeys.get(0).x == xPos && coinKeys.get(0).y == yPos) {
+				if (getTileAtPosition(xPos + precision, yPos).getClass() == RoadTile.class) 
+					neighorsTiles.add(new Vector2(xPos + precision, yPos));
+				if (getTileAtPosition(xPos, yPos + precision).getClass() == RoadTile.class)
+					neighorsTiles.add(new Vector2(xPos, yPos + precision));
+			} else if (coinKeys.get(1).x == xPos && coinKeys.get(1).y == yPos) {
+				if (getTileAtPosition(xPos + precision, yPos).getClass() == RoadTile.class)
+					neighorsTiles.add(new Vector2(xPos + precision, yPos));
+				if (getTileAtPosition(xPos, yPos - precision).getClass() == RoadTile.class)
+					neighorsTiles.add(new Vector2(xPos, yPos - precision));
+			} else if (coinKeys.get(2).x == xPos && coinKeys.get(2).y == yPos) {
+				if (getTileAtPosition(xPos - precision, yPos).getClass() == RoadTile.class)
+					neighorsTiles.add(new Vector2(xPos - precision, yPos));
+				if (getTileAtPosition(xPos, yPos + precision).getClass() == RoadTile.class)
+					neighorsTiles.add(new Vector2(xPos, yPos + precision));
+			} else if (coinKeys.get(3).x == xPos && coinKeys.get(3).y == yPos) {
+				if (getTileAtPosition(xPos - precision, yPos).getClass() == RoadTile.class)
+					neighorsTiles.add(new Vector2(xPos - precision, yPos));
+				if (getTileAtPosition(xPos, yPos - precision).getClass() == RoadTile.class)
+					neighorsTiles.add(new Vector2(xPos, yPos - precision));
 			}
-		} else if (sideKeys.contains(currentKeys)) {
-			if (sideKeys.get(0).x == xKey && sideKeys.get(0).y == yKey) {
-				if (mapArray[xKey + 1][yKey].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey + 1][yKey].getPosition());
-				if (mapArray[xKey][yKey + 1].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey][yKey + 1].getPosition());
-				if (mapArray[xKey - 1][yKey].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey - 1][yKey].getPosition());
-			} else if (sideKeys.get(1).x == xKey && sideKeys.get(1).y == yKey) {
-				if (mapArray[xKey + 1][yKey].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey + 1][yKey].getPosition());
-				if (mapArray[xKey][yKey - 1].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey][yKey - 1].getPosition());
-				if (mapArray[xKey - 1][yKey].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey - 1][yKey].getPosition());
-			} else if (sideKeys.get(2).x == xKey && sideKeys.get(2).y == yKey) {
-				if (mapArray[xKey - 1][yKey].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey - 1][yKey].getPosition());
-				if (mapArray[xKey][yKey + 1].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey][yKey + 1].getPosition());
-				if (mapArray[xKey][yKey - 1].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey][yKey - 1].getPosition());
-			} else if (sideKeys.get(3).x == xKey && sideKeys.get(3).y == yKey) {
-				if (mapArray[xKey + 1][yKey].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey + 1][yKey].getPosition());
-				if (mapArray[xKey][yKey + 1].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey][yKey + 1].getPosition());
-				if (mapArray[xKey][yKey - 1].getClass() == RoadTile.class)
-					neighorsTiles.add(mapArray[xKey][yKey - 1].getPosition());
+		} else if (sideKeys.contains(currentPos)) {
+			if (sideKeys.get(0).x == xPos && sideKeys.get(0).y == yPos) {
+				if (getTileAtPosition(xPos + precision, yPos).getClass() == RoadTile.class)
+					neighorsTiles.add(new Vector2(xPos + precision, yPos));
+				if (getTileAtPosition(xPos, yPos + precision).getClass() == RoadTile.class)
+					neighorsTiles.add(new Vector2(xPos, yPos + precision));
+				if (getTileAtPosition(xPos - precision, yPos).getClass() == RoadTile.class)
+					neighorsTiles.add(new Vector2(xPos - precision, yPos));
+			} else if (sideKeys.get(1).x == xPos && sideKeys.get(1).y == yPos) {
+				if (getTileAtPosition(xPos + precision, yPos).getClass() == RoadTile.class)
+					neighorsTiles.add(new Vector2(xPos + precision, yPos));
+				if (getTileAtPosition(xPos, yPos - precision).getClass() == RoadTile.class)
+					neighorsTiles.add(new Vector2(xPos, yPos - precision));
+				if (getTileAtPosition(xPos - precision, yPos).getClass() == RoadTile.class)
+					neighorsTiles.add(new Vector2(xPos - precision, yPos));
+			} else if (sideKeys.get(2).x == xPos && sideKeys.get(2).y == yPos) {
+				if (getTileAtPosition(xPos - precision, yPos).getClass() == RoadTile.class)
+					neighorsTiles.add(new Vector2(xPos - precision, yPos));
+				if (getTileAtPosition(xPos, yPos + precision).getClass() == RoadTile.class)
+					neighorsTiles.add(new Vector2(xPos, yPos + precision));
+				if (getTileAtPosition(xPos, yPos - precision).getClass() == RoadTile.class)
+					neighorsTiles.add(new Vector2(xPos, yPos - precision));
+			} else if (sideKeys.get(3).x == xPos && sideKeys.get(3).y == yPos) {
+				if (getTileAtPosition(xPos + precision, yPos).getClass() == RoadTile.class)
+					neighorsTiles.add(new Vector2(xPos + precision, yPos));
+				if (getTileAtPosition(xPos, yPos + precision).getClass() == RoadTile.class)
+					neighorsTiles.add(new Vector2(xPos, yPos + precision));
+				if (getTileAtPosition(xPos, yPos - precision).getClass() == RoadTile.class)
+					neighorsTiles.add(new Vector2(xPos, yPos - precision));
 			}
 		} else {
-			if (mapArray[xKey + 1][yKey].getClass() == RoadTile.class)
-				neighorsTiles.add(mapArray[xKey + 1][yKey].getPosition());
-			if (mapArray[xKey][yKey + 1].getClass() == RoadTile.class)
-				neighorsTiles.add(mapArray[xKey][yKey + 1].getPosition());
-			if (mapArray[xKey][yKey - 1].getClass() == RoadTile.class)
-				neighorsTiles.add(mapArray[xKey][yKey - 1].getPosition());
-			if (mapArray[xKey - 1][yKey].getClass() == RoadTile.class)
-				neighorsTiles.add(mapArray[xKey - 1][yKey].getPosition());
+			if (getTileAtPosition(xPos + precision, yPos).getClass() == RoadTile.class)
+				neighorsTiles.add(new Vector2(xPos + precision, yPos));
+			if (getTileAtPosition(xPos, yPos + precision).getClass() == RoadTile.class)
+				neighorsTiles.add(new Vector2(xPos, yPos + precision));
+			if (getTileAtPosition(xPos, yPos - precision).getClass() == RoadTile.class)
+				neighorsTiles.add(new Vector2(xPos, yPos - precision));
+			if (getTileAtPosition(xPos - precision, yPos).getClass() == RoadTile.class)
+				neighorsTiles.add(new Vector2(xPos - precision, yPos));
 		}
-
+		
 		return neighorsTiles;
 
 	}
