@@ -65,11 +65,43 @@ public class AI {
 	public void updateEnemyUnit() {
 		for (MobileEntity enemy : currentMap.getListEnemyUnits()) {
 			// Mise à jour de la direction en fonction de la path
+			List<Vector2> path = enemy.getPath();
 
+			if ((path.size() > 1)) {
+				if ((int) (path.get(path.size() - 2).x / AssetLoader.TXT_SIZE)
+						- (int) (enemy.getPosition().x / AssetLoader.TXT_SIZE) >= 2) {
+					if (!(enemy.getDirection().x == 1 && enemy.getDirection().y == 0)) {
+						enemy.setDirection(new Vector2(1, 0)); // droite
+						path.remove(path.size() - 2);
+					}
+				} else if ((int) (path.get(path.size() - 2).y / AssetLoader.TXT_SIZE)
+						- (int) (enemy.getPosition().y / AssetLoader.TXT_SIZE) >= 1) {
+					if (!(enemy.getDirection().x == 0 && enemy.getDirection().y == 1)) {
+						enemy.setDirection(new Vector2(0, 1)); // haut
+						path.remove(path.size() - 2);
+					}
+				} else if ((int) (path.get(path.size() - 2).y / AssetLoader.TXT_SIZE)
+						- (int) ((enemy.getPosition().y) / AssetLoader.TXT_SIZE) <= 0) {
+					if (!(enemy.getDirection().x == 0 && enemy.getDirection().y == -1)) {
+						enemy.setDirection(new Vector2(0, -1)); // bas
+						path.remove(path.size() - 2);
+					}
+				} else if ((int) (path.get(path.size() - 2).x / AssetLoader.TXT_SIZE)
+						- (int) ((enemy.getPosition().x) / AssetLoader.TXT_SIZE) <= 0) {
+					if (!(enemy.getDirection().x == -1 && enemy.getDirection().y == 0)) {
+						enemy.setDirection(new Vector2(-1, 0)); // gauche
+						path.remove(path.size() - 2);
+					}
+				}
+			}
+
+			else
+				enemy.setDirection(new Vector2(0, 0));
 
 			// Mise à jour de la position en fonction de la direction
 			enemy.move();
 		}
+
 	}
 
 	public void updateUnit() {
