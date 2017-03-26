@@ -32,6 +32,9 @@ public class Map implements InputProcessor {
 	private List<Entity> listPlayerBuilding;
 	private AI aI;
 	private Entity nexus;
+	private Wave waves;
+	private Vector2 startPosition;
+	private int nbWaves = 4;
 
 	public Map() {
 		this.listPlayerUnits = new ArrayList<MobileEntity>();
@@ -39,7 +42,6 @@ public class Map implements InputProcessor {
 		this.listPlayerBuilding = new ArrayList<Entity>();
 		this.mapArray = new Tile[Tile_WIDTH][Tile_HEIGHT];
 		this.aI = new AI(this);
-
 	}
 
 	public Map(OrthographicCamera camera) {
@@ -76,6 +78,10 @@ public class Map implements InputProcessor {
 					nexus.setPosition(new Vector2(x * AssetLoader.TXT_SIZE, y * AssetLoader.TXT_SIZE));
 					this.nexus = nexus;
 					break;
+				case 'S':
+					mapArray[x][y] = new RoadTile();
+					startPosition = new Vector2(x * AssetLoader.TXT_SIZE, y * AssetLoader.TXT_SIZE);
+					break;
 				default:
 					mapArray[x][y] = new GroundTile();
 					break;
@@ -85,7 +91,7 @@ public class Map implements InputProcessor {
 			}
 		}
 
-		Soldier soldier = new Soldier();
+		/*Soldier soldier = new Soldier();
 		Soldier soldier2 = new Soldier();
 		soldier.setPosition(new Vector2(mapArray[0][10].getPosition()));
 		soldier.setDirection(new Vector2(1, 0));
@@ -93,11 +99,27 @@ public class Map implements InputProcessor {
 		soldier2.setPosition(new Vector2(mapArray[0][11].getPosition()));
 		soldier2.setDirection(new Vector2(1, 0));
 		this.listEnemyUnits.add(soldier2);
-		this.aI.updateMobileEntityPath();
+		this.aI.updateMobileEntityPath();*/
 	}
 
 	public void update() {
-		
+		if(this.listEnemyUnits.isEmpty()) {
+			List<MobileEntity> enemyToPop = new ArrayList<MobileEntity>();
+			for(int i = 0; i < 4; i++) {
+				Soldier s = new Soldier();
+				s.setPosition(new Vector2(startPosition));
+				enemyToPop.add(s);
+			}
+			this.aI.updateMobileEntityPath(enemyToPop);
+			if(nbWaves > 0) {
+				Wave wave = new Wave(this, aI, enemyToPop);
+				Thread popWave = new Thread(wave);
+				popWave.start();
+				this.nbWaves--;
+			} else {
+				//Niveau terminé !
+			}	
+		}
 		this.aI.updateBuilding();
 		this.aI.updateEnemyUnit();
 		
@@ -138,6 +160,16 @@ public class Map implements InputProcessor {
 	public int getTile_HEIGHT() {
 		return Tile_HEIGHT;
 	}
+
+	public Vector2 getStartPosition() {
+		return startPosition;
+	}
+
+	public void setStartPosition(Vector2 startPosition) {
+		this.startPosition = startPosition;
+	}
+
+
 
 	Vector3 tp = new Vector3();
 	boolean dragging;
@@ -189,7 +221,7 @@ public class Map implements InputProcessor {
 	}
 
 	public Tile getTileAtPosition(float x, float y) {
-		// camera.unproject(tp.set(x, y, 0));
+		// camera.unproject(tp.set(x, y, 0));		
 		return this.mapArray[(int) x / AssetLoader.TXT_SIZE][(int) y / AssetLoader.TXT_SIZE];
 	}
 

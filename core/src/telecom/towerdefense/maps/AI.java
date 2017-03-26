@@ -1,5 +1,6 @@
 package telecom.towerdefense.maps;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -15,15 +16,21 @@ import telecom.towerdefense.utilities.AssetLoader;
 public class AI {
 
 	private Map currentMap = null;
+	private int nbWaves = 4;
 
 	public AI(Map currentMap) {
 		this.currentMap = currentMap;
 	}
+	
+	public void popWave(List<MobileEntity> listEnemyUnits, Vector2 startPosition) throws Exception {
+		
 
-	public void updateMobileEntityPath() {
+	}
+
+	public void updateMobileEntityPath(List<MobileEntity> listEnemies) {
 
 		Entity nexus = currentMap.getNexus();
-		for (MobileEntity enemy : currentMap.getListEnemyUnits()) {
+		for (MobileEntity enemy : listEnemies) {
 			List<Vector2> path = new ArrayList<Vector2>();
 			ArrayMap<Vector2, Float> frontier = new ArrayMap<Vector2, Float>();
 			Vector2 startPos = enemy.getPosition();
