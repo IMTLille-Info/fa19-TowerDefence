@@ -69,11 +69,11 @@ public class AI {
 		return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 	}
 
-	public void updateEnemyUnit() {
+	public void updateEnemyUnit() throws Exception {
 		for (MobileEntity enemy : currentMap.getListEnemyUnits()) {
 			// Mise à jour de la direction en fonction de la path
 			List<Vector2> path = enemy.getPath();
-			if ((path.size() > 1)) {
+			if ((path.size() > 1) && !enemy.isInRange(currentMap.getNexus())) {
 				if ((int) (path.get(path.size() - 2).y / AssetLoader.TXT_SIZE) - (int) (enemy.getPosition().y / AssetLoader.TXT_SIZE) == 0) {
 					if ((int) (path.get(path.size() - 2).x / AssetLoader.TXT_SIZE) - (int) (enemy.getPosition().x / AssetLoader.TXT_SIZE) == 1
 							&&  path.get(path.size() - 2).y + 1 > enemy.getPosition().y) {	
@@ -96,9 +96,14 @@ public class AI {
 					}
 				}				
 			} else enemy.setDirection(new Vector2(0, 0));
-			
+						
 			// Mise à jour de la position en fonction de la direction
 			enemy.move();
+			
+			//Les enemis attaquent le nexus
+			if(enemy.isInRange(currentMap.getNexus())) {
+				enemy.attack(currentMap.getNexus());
+			}
 		}
 
 	}

@@ -17,7 +17,7 @@ public class Soldier extends MobileEntity {
 		this.damageAttack = 2;
 		this.maxLifePoint = 15;
 		this.lifePoint = maxLifePoint;
-		this.rangeAttack = 1;
+		this.rangeAttack = 2;
 		this.speedAttack = 1;
 		this.xUnit = 1;
 		this.yUnit = 1;

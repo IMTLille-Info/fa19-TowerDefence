@@ -5,6 +5,7 @@ import java.util.List;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -21,12 +22,14 @@ public class MapRenderer {
 	private Map currentMap;
 	private float time;
 	private ShapeRenderer shapeRenderer; // Pour les tests
+	private BitmapFont font;
 
 	public MapRenderer(Map currentMap) {
 		this.currentMap = currentMap;
 		batch = new SpriteBatch();
 		shapeRenderer = new ShapeRenderer();
 		time = 0.0f;
+		font = new BitmapFont();
 	}
 
 	public void render() {
@@ -47,12 +50,12 @@ public class MapRenderer {
 		Entity nexus = currentMap.getNexus();
 		batch.draw(nexus.getTexture(), nexus.getPosition().x, nexus.getPosition().y, AssetLoader.TXT_SIZE * 2,
 				(nexus.getTexture().getRegionHeight() - AssetLoader.TXT_SIZE) * 2);
-		drawLifeBar(shapeRenderer, nexus);
+		if(nexus.getLifePoint() > 0) drawLifeBar(shapeRenderer, nexus);
 
 		for (Entity building : currentMap.getListPlayerBuilding()) {
 			batch.draw(building.getTexture(), building.getPosition().x, building.getPosition().y, AssetLoader.TXT_SIZE,
 					building.getTexture().getRegionHeight() - AssetLoader.TXT_SIZE);
-			drawLifeBar(shapeRenderer, building);
+			if(building.getLifePoint() > 0) drawLifeBar(shapeRenderer, building);
 		}
 
 		time += Gdx.graphics.getDeltaTime(); // Time pour les animations
@@ -68,14 +71,22 @@ public class MapRenderer {
 			}
 			batch.draw(texture, enemyUnit.getPosition().x, enemyUnit.getPosition().y + (AssetLoader.TXT_SIZE / 2),
 					AssetLoader.TXT_SIZE, enemyUnit.getTexture().getRegionHeight() - AssetLoader.TXT_SIZE);
-			drawLifeBar(shapeRenderer, enemyUnit);
+			if(enemyUnit.getLifePoint() > 0) drawLifeBar(shapeRenderer, enemyUnit);
+		}
+		
+		if(currentMap.isWinLevel()) {
+			font.setColor(Color.BLUE);
+			font.getData().setScale(2);
+			font.draw(batch, "Victoire !", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+		} else if (currentMap.isLoseLevel()) {
+			font.setColor(Color.RED);
+			font.getData().setScale(2);
+			font.draw(batch, "Defaite !", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 		}
 
 		batch.end();
-		
-		//Barres de vies
-		
-		shapeRenderer.set(ShapeType.Filled);
+				
+		/*shapeRenderer.set(ShapeType.Filled);
 		int i = 0;
 		for (MobileEntity enemy : currentMap.getListEnemyUnits()) {
 			shapeRenderer.setColor(i * 10, i * 10, i * 10, 0);
@@ -84,9 +95,11 @@ public class MapRenderer {
 				shapeRenderer.circle(t.x+i*10, t.y, 3.0f);
 			}
 			i++;
-		}
+		}*/
 
 		shapeRenderer.end();
+		
+		
 	}
 	
 	private void drawLifeBar(ShapeRenderer shape, Entity entity) {

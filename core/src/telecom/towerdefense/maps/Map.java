@@ -34,7 +34,9 @@ public class Map implements InputProcessor {
 	private Entity nexus;
 	private Wave waves;
 	private Vector2 startPosition;
-	private int nbWaves = 4;
+	private int nbWaves = 1;
+	private boolean winLevel = false;
+	private boolean loseLevel = false;
 
 	public Map() {
 		this.listPlayerUnits = new ArrayList<MobileEntity>();
@@ -103,6 +105,22 @@ public class Map implements InputProcessor {
 	}
 
 	public void update() {
+		try {
+			this.makeWave();
+			this.aI.updateBuilding();
+			
+		} catch (Exception e) {
+			winLevel = true; //Fin du niveau
+		}
+		
+		try {
+			this.aI.updateEnemyUnit();
+		} catch (Exception e) {
+			loseLevel = true;
+		}
+	}
+	
+	public void makeWave() throws Exception {
 		if(this.listEnemyUnits.isEmpty()) {
 			List<MobileEntity> enemyToPop = new ArrayList<MobileEntity>();
 			for(int i = 0; i < 4; i++) {
@@ -118,15 +136,22 @@ public class Map implements InputProcessor {
 				this.nbWaves--;
 			} else {
 				//Niveau terminé !
+				throw new Exception("Niveau terminé !");
 			}	
 		}
-		this.aI.updateBuilding();
-		this.aI.updateEnemyUnit();
-		
 	}
 
 	public Entity getNexus() {
 		return nexus;
+	}
+	
+
+	public boolean isWinLevel() {
+		return winLevel;
+	}
+	
+	public boolean isLoseLevel() {
+		return loseLevel;
 	}
 
 	public Tile[][] getMapArray() {
@@ -343,5 +368,6 @@ public class Map implements InputProcessor {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
 
 }
