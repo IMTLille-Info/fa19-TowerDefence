@@ -81,7 +81,7 @@ public class MapRenderer {
 			shapeRenderer.setColor(i * 10, i * 10, i * 10, 0);
 			List<Vector2> path = enemy.getPath();
 			for (Vector2 t : path) {
-				shapeRenderer.circle(t.x, t.y, 3.0f);
+				shapeRenderer.circle(t.x+i*10, t.y, 3.0f);
 			}
 			i++;
 		}
