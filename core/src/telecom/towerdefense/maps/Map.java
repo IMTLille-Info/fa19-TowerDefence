@@ -24,15 +24,12 @@ public class Map implements InputProcessor {
 
 	protected final int Tile_WIDTH = 30;
 	protected final int Tile_HEIGHT = 20;
-	private OrthographicCamera camera;
-
 	protected Tile[][] mapArray;
 	private List<MobileEntity> listPlayerUnits;
 	private List<MobileEntity> listEnemyUnits;
 	private List<Entity> listPlayerBuilding;
 	private AI aI;
 	private Entity nexus;
-	private Wave waves;
 	private Vector2 startPosition;
 	private int nbWaves = 2;
 	private boolean winLevel = false;
@@ -52,7 +49,6 @@ public class Map implements InputProcessor {
 		this.listPlayerBuilding = new ArrayList<Entity>();
 		this.mapArray = new Tile[Tile_WIDTH][Tile_HEIGHT];
 		this.aI = new AI(this);
-		this.camera = camera;
 	}
 
 	public void loadLevel(String mapDatas) {
@@ -98,9 +94,8 @@ public class Map implements InputProcessor {
 		try {
 			this.makeWave();
 			this.aI.updateBuilding();
-
 		} catch (Exception e) {
-			winLevel = true; // Fin du niveau
+			if(nbWaves == 0) winLevel = true; // Fin du niveau
 		}
 
 		try {
