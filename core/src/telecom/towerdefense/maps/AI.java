@@ -130,6 +130,10 @@ public class AI {
 				try {
 					building.attack(enemy);
 				} catch (Exception e) {
+					int mana = currentMap.getMana();
+					mana += enemy.getManaWin();
+					if(mana > Map.MANA_MAX) mana = Map.MANA_MAX;
+					currentMap.setMana(mana);
 					mobItr.remove();
 				}
 			}

@@ -13,5 +13,7 @@ public class Stonehenge extends Entity {
 		this.lifePoint = maxLifePoint;
 		this.xUnit = 1;
 		this.yUnit = 1;
+		this.manaCost = 50;
+		this.manaWin = 0;
 	}
 }

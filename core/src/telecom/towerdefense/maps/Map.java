@@ -21,7 +21,7 @@ import telecom.towerdefense.gameobjects.units.Soldier;
 import telecom.towerdefense.utilities.AssetLoader;
 
 public class Map implements InputProcessor {
-
+	public final static int MANA_MAX = 200;
 	protected final int Tile_WIDTH = 30;
 	protected final int Tile_HEIGHT = 20;
 	protected Tile[][] mapArray;
@@ -31,9 +31,10 @@ public class Map implements InputProcessor {
 	private AI aI;
 	private Entity nexus;
 	private Vector2 startPosition;
-	private int nbWaves = 2;
+	private int nbWaves = 4;
 	private boolean winLevel = false;
 	private boolean loseLevel = false;
+	private int mana = 50;
 
 	public Map() {
 		this.listPlayerUnits = new ArrayList<MobileEntity>();
@@ -125,9 +126,19 @@ public class Map implements InputProcessor {
 			}
 		}
 	}
+	
+	
 
 	public Entity getNexus() {
 		return nexus;
+	}
+
+	public int getMana() {
+		return mana;
+	}
+
+	public void setMana(int mana) {
+		this.mana = mana;
 	}
 
 	public boolean isWinLevel() {
@@ -211,12 +222,15 @@ public class Map implements InputProcessor {
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		screenY = Gdx.graphics.getHeight() - screenY;
-		if (getClassForPosition(screenX, screenY) == BuildingTile.class) { // Ajout
-																			// d'un
-																			// batiment
+		if (getClassForPosition(screenX, screenY) == BuildingTile.class) { // Ajout d'un batiment
+			
 			Entity stoneHenge = new Stonehenge();
-			stoneHenge.setPosition(getTileAtPosition(screenX, screenY).getPosition());
-			this.addBuilding(stoneHenge);
+			if(mana >= stoneHenge.getManaCost()) {
+				stoneHenge.setPosition(getTileAtPosition(screenX, screenY).getPosition());
+				this.addBuilding(stoneHenge);
+				mana = mana - stoneHenge.getManaCost();
+			}
+				
 		}
 
 		return true;

@@ -11,6 +11,8 @@ public abstract class Entity extends GameObject {
 	protected int speedAttack;
 	protected int damageAttack;
 	protected int xUnit, yUnit;
+	protected int manaCost;
+	protected int manaWin;
 
 	public int getxUnit() {
 		return xUnit;
@@ -89,6 +91,14 @@ public abstract class Entity extends GameObject {
 
 	public int getMaxLifePoint() {
 		return maxLifePoint;
+	}
+
+	public int getManaCost() {
+		return manaCost;
+	}
+
+	public int getManaWin() {
+		return manaWin;
 	}
 
 }

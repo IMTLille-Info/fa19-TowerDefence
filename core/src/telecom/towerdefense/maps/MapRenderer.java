@@ -1,13 +1,22 @@
 package telecom.towerdefense.maps;
 
+import java.util.List;
+
+import javax.swing.text.html.HTMLDocument.Iterator;
+
+import org.omg.CORBA.FREE_MEM;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import telecom.towerdefense.gameobjects.Entity;
@@ -19,15 +28,31 @@ public class MapRenderer {
 	private SpriteBatch batch;
 	private Map currentMap;
 	private float time;
-	private ShapeRenderer shapeRenderer; // Pour les tests
-	private BitmapFont font;
+	private ShapeRenderer shapeRenderer;
+	private BitmapFont endFont, uiFont;
 
 	public MapRenderer(Map currentMap) {
 		this.currentMap = currentMap;
 		batch = new SpriteBatch();
 		shapeRenderer = new ShapeRenderer();
 		time = 0.0f;
-		font = new BitmapFont();
+		
+		//Polices
+		endFont = new BitmapFont();
+		FreeTypeFontGenerator endFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("3Dventure.ttf"));
+		FreeTypeFontParameter endFontParameter = new FreeTypeFontParameter();
+		endFontParameter.size = 120;
+		endFontParameter.color = Color.WHITE;
+		endFont = endFontGenerator.generateFont(endFontParameter);
+		endFontGenerator.dispose();
+		
+		uiFont = new BitmapFont();
+		FreeTypeFontGenerator uiFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Savior1.ttf"));
+		FreeTypeFontParameter uiFontParameters = new FreeTypeFontParameter();
+		uiFontParameters.size = 32;
+		uiFontParameters.color = Color.WHITE;
+		uiFont = uiFontGenerator.generateFont(uiFontParameters);
+		uiFontGenerator.dispose();
 	}
 
 	public void render() {
@@ -37,6 +62,7 @@ public class MapRenderer {
 		shapeRenderer.setAutoShapeType(true);
 		shapeRenderer.begin();
 		batch.begin();
+		
 		Tile[][] map = currentMap.getMapArray();
 		for (int x = 0; x < currentMap.getTile_WIDTH(); x++)
 			for (int y = 0; y < currentMap.getTile_HEIGHT(); y++) {
@@ -59,7 +85,9 @@ public class MapRenderer {
 		}
 
 		time += Gdx.graphics.getDeltaTime(); // Time pour les animations
-		for (MobileEntity enemyUnit : currentMap.getListEnemyUnits()) {
+		List<MobileEntity> enemies = currentMap.getListEnemyUnits();
+		for (int i = 0; i < enemies.size(); i++) {
+			MobileEntity enemyUnit = enemies.get(i);
 			TextureRegion texture;
 			if (enemyUnit.getDirection().isZero()) {
 				texture = enemyUnit.getTexture();
@@ -74,17 +102,13 @@ public class MapRenderer {
 			if (enemyUnit.getLifePoint() > 0)
 				drawLifeBar(shapeRenderer, enemyUnit);
 		}
-
-		if (currentMap.isWinLevel()) {
-			font.setColor(Color.BLUE);
-			font.getData().setScale(2);
-			font.draw(batch, "Victoire !", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-		} else if (currentMap.isLoseLevel()) {
-			font.setColor(Color.RED);
-			font.getData().setScale(2);
-			font.draw(batch, "Defaite !", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-		}
-
+		
+		if(currentMap.getMana() > 0)
+			uiFont.setColor(Color.WHITE);
+		else
+			uiFont.setColor(Color.RED);
+		uiFont.draw(batch, "Mana : " + currentMap.getMana() + " / " + currentMap.MANA_MAX, Gdx.graphics.getWidth() - 200, Gdx.graphics.getHeight() - 20);
+		
 		batch.end();
 
 		/*
@@ -94,6 +118,21 @@ public class MapRenderer {
 		 * (Vector2 t : path) { shapeRenderer.circle(t.x+i*10, t.y, 3.0f); }
 		 * i++; }
 		 */
+		if (currentMap.isWinLevel()) {
+			shapeRenderer.setColor(Color.BLUE);
+			shapeRenderer.rect(0, 250, Gdx.graphics.getWidth(), 200);
+			shapeRenderer.end();
+			batch.begin();
+			endFont.draw(batch, "Victoire !", 170, 370);
+			batch.end();
+		} else if (currentMap.isLoseLevel()) {
+			shapeRenderer.setColor(Color.RED);
+			shapeRenderer.rect(0, 250, Gdx.graphics.getWidth(), 200);
+			shapeRenderer.end();
+			batch.begin();
+			endFont.draw(batch, "Defaite !", 170, 370);
+			batch.end();
+		}
 
 		shapeRenderer.end();
 

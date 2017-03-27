@@ -21,5 +21,8 @@ public class Soldier extends MobileEntity {
 		this.speedAttack = 1;
 		this.xUnit = 1;
 		this.yUnit = 1;
+		
+		this.manaCost = 10;
+		this.manaWin = 15;
 	}
 }
