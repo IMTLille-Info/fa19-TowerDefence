@@ -6,6 +6,7 @@ import java.util.List;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
@@ -31,10 +32,12 @@ public class Map implements InputProcessor {
 	private AI aI;
 	private Entity nexus;
 	private Vector2 startPosition;
-	private int nbWaves = 4;
+	private int nbWaves = 0;
 	private boolean winLevel = false;
 	private boolean loseLevel = false;
 	private int mana = 50;
+	private int currentLevel = 0;
+	private int enemyPerWaves = 0;
 
 	public Map() {
 		this.listPlayerUnits = new ArrayList<MobileEntity>();
@@ -57,21 +60,24 @@ public class Map implements InputProcessor {
 		mapDatas = mapDatas.replace("\n", "");
 		mapDatas = mapDatas.replace("\r", "");
 		byte[] datas = mapDatas.getBytes();
+		currentLevel = Character.getNumericValue(mapDatas.charAt(0));
+		nbWaves = Character.getNumericValue(mapDatas.charAt(1));
+		enemyPerWaves = Character.getNumericValue(mapDatas.charAt(2));
 
 		int i = datas.length - 1;
 		for (int y = 0; y < Tile_HEIGHT; y++) {
 			for (int x = (Tile_WIDTH - 1); x >= 0; x--) {
 				switch (datas[i]) {
-				case 0x47: // G
+				case 'G': // G
 					mapArray[x][y] = new GroundTile();
 					break;
-				case 0x52: // R
+				case 'R': // R
 					mapArray[x][y] = new RoadTile();
 					break;
-				case 0x42: // B
+				case 'B': // B
 					mapArray[x][y] = new BuildingTile();
 					break;
-				case 0x4E: // N
+				case 'N': // N
 					mapArray[x][y] = new RoadTile();
 					Entity nexus = new Nexus(); // Création du nexus
 					nexus.setPosition(new Vector2(x * AssetLoader.TXT_SIZE, y * AssetLoader.TXT_SIZE));
@@ -93,7 +99,7 @@ public class Map implements InputProcessor {
 
 	public void update() {
 		try {
-			this.makeWave();
+			this.makeWave(enemyPerWaves);
 			this.aI.updateBuilding();
 		} catch (Exception e) {
 			if(nbWaves == 0) winLevel = true; // Fin du niveau
@@ -102,14 +108,14 @@ public class Map implements InputProcessor {
 		try {
 			this.aI.updateEnemyUnit();
 		} catch (Exception e) {
-			loseLevel = true;
+			loseLevel = true; //Fin du niveau
 		}
 	}
 
-	public void makeWave() throws Exception {
+	public void makeWave(int nb) throws Exception {
 		if (this.listEnemyUnits.isEmpty()) {
 			List<MobileEntity> enemyToPop = new ArrayList<MobileEntity>();
-			for (int i = 0; i < 4; i++) {
+			for (int i = 0; i < nb; i++) {
 				Soldier s = new Soldier();
 				s.setPosition(new Vector2(startPosition));
 				enemyToPop.add(s);
@@ -367,6 +373,14 @@ public class Map implements InputProcessor {
 	public boolean scrolled(int amount) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public int getNbWaves() {
+		return nbWaves;
+	}
+
+	public int getCurrentLevel() {
+		return currentLevel;
 	}
 
 }

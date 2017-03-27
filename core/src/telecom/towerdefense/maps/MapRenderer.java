@@ -103,21 +103,31 @@ public class MapRenderer {
 				drawLifeBar(shapeRenderer, enemyUnit);
 		}
 		
-		if(currentMap.getMana() > 0)
-			uiFont.setColor(Color.WHITE);
-		else
+		//Texte
+		
+		//Mana
+		if(currentMap.getMana() <= 0)
 			uiFont.setColor(Color.RED);
 		uiFont.draw(batch, "Mana : " + currentMap.getMana() + " / " + currentMap.MANA_MAX, Gdx.graphics.getWidth() - 200, Gdx.graphics.getHeight() - 20);
+		uiFont.setColor(Color.WHITE);
+		
+		//Niveau actuel
+		uiFont.draw(batch, "Niveau " + currentMap.getCurrentLevel(), 10, Gdx.graphics.getHeight() - 20);
+		
+		//Vagues restantes
+		uiFont.draw(batch, "Vagues restantes : " + (currentMap.getNbWaves() + 1), 150, Gdx.graphics.getHeight() - 20);
 		
 		batch.end();
 
-		/*
+		/* Enemy path
 		 * shapeRenderer.set(ShapeType.Filled); int i = 0; for (MobileEntity
 		 * enemy : currentMap.getListEnemyUnits()) { shapeRenderer.setColor(i *
 		 * 10, i * 10, i * 10, 0); List<Vector2> path = enemy.getPath(); for
 		 * (Vector2 t : path) { shapeRenderer.circle(t.x+i*10, t.y, 3.0f); }
 		 * i++; }
 		 */
+		
+		//Fin du niveau
 		if (currentMap.isWinLevel()) {
 			shapeRenderer.setColor(Color.BLUE);
 			shapeRenderer.rect(0, 250, Gdx.graphics.getWidth(), 200);
