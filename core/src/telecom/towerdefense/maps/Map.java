@@ -34,7 +34,7 @@ public class Map implements InputProcessor {
 	private Entity nexus;
 	private Wave waves;
 	private Vector2 startPosition;
-	private int nbWaves = 1;
+	private int nbWaves = 2;
 	private boolean winLevel = false;
 	private boolean loseLevel = false;
 
@@ -92,64 +92,53 @@ public class Map implements InputProcessor {
 				i--;
 			}
 		}
-
-		/*Soldier soldier = new Soldier();
-		Soldier soldier2 = new Soldier();
-		soldier.setPosition(new Vector2(mapArray[0][10].getPosition()));
-		soldier.setDirection(new Vector2(1, 0));
-		this.listEnemyUnits.add(soldier);
-		soldier2.setPosition(new Vector2(mapArray[0][11].getPosition()));
-		soldier2.setDirection(new Vector2(1, 0));
-		this.listEnemyUnits.add(soldier2);
-		this.aI.updateMobileEntityPath();*/
 	}
 
 	public void update() {
 		try {
 			this.makeWave();
 			this.aI.updateBuilding();
-			
+
 		} catch (Exception e) {
-			winLevel = true; //Fin du niveau
+			winLevel = true; // Fin du niveau
 		}
-		
+
 		try {
 			this.aI.updateEnemyUnit();
 		} catch (Exception e) {
 			loseLevel = true;
 		}
 	}
-	
+
 	public void makeWave() throws Exception {
-		if(this.listEnemyUnits.isEmpty()) {
+		if (this.listEnemyUnits.isEmpty()) {
 			List<MobileEntity> enemyToPop = new ArrayList<MobileEntity>();
-			for(int i = 0; i < 4; i++) {
+			for (int i = 0; i < 4; i++) {
 				Soldier s = new Soldier();
 				s.setPosition(new Vector2(startPosition));
 				enemyToPop.add(s);
 			}
 			this.aI.updateMobileEntityPath(enemyToPop);
-			if(nbWaves > 0) {
+			if (nbWaves > 0) {
 				Wave wave = new Wave(this, aI, enemyToPop);
 				Thread popWave = new Thread(wave);
 				popWave.start();
 				this.nbWaves--;
 			} else {
-				//Niveau terminé !
+				// Niveau terminé !
 				throw new Exception("Niveau terminé !");
-			}	
+			}
 		}
 	}
 
 	public Entity getNexus() {
 		return nexus;
 	}
-	
 
 	public boolean isWinLevel() {
 		return winLevel;
 	}
-	
+
 	public boolean isLoseLevel() {
 		return loseLevel;
 	}
@@ -193,8 +182,6 @@ public class Map implements InputProcessor {
 	public void setStartPosition(Vector2 startPosition) {
 		this.startPosition = startPosition;
 	}
-
-
 
 	Vector3 tp = new Vector3();
 	boolean dragging;
@@ -246,14 +233,14 @@ public class Map implements InputProcessor {
 	}
 
 	public Tile getTileAtPosition(float x, float y) {
-		// camera.unproject(tp.set(x, y, 0));		
+		// camera.unproject(tp.set(x, y, 0));
 		return this.mapArray[(int) x / AssetLoader.TXT_SIZE][(int) y / AssetLoader.TXT_SIZE];
 	}
 
 	public List<Vector2> getNeighborsTiles(Vector2 positionTile, int precision) {
 		// camera.unproject(tp.set(current.getPosition().x,
 		// current.getPosition().y, 0));
-		
+
 		float xPos = positionTile.x;
 		float yPos = positionTile.y;
 		Vector2 currentPos = new Vector2(xPos, yPos);
@@ -262,21 +249,25 @@ public class Map implements InputProcessor {
 		// ensemble des index des coins de la map
 		List<Vector2> coinKeys = new ArrayList<Vector2>(4);
 		coinKeys.add(0, new Vector2(0, 0)); // Bas gauche
-		coinKeys.add(1, new Vector2(0, Gdx.graphics.getHeight() - precision)); // Haut gauche
-		coinKeys.add(2, new Vector2(Gdx.graphics.getWidth() - precision, 0)); // Bas droite
+		coinKeys.add(1, new Vector2(0, Gdx.graphics.getHeight() - precision)); // Haut
+																				// gauche
+		coinKeys.add(2, new Vector2(Gdx.graphics.getWidth() - precision, 0)); // Bas
+																				// droite
 		coinKeys.add(3, new Vector2(Gdx.graphics.getHeight() - precision, Gdx.graphics.getWidth() - precision)); // Haut
-																								// droite
+		// droite
 
 		// ensemble des index des côtés
 		List<Vector2> sideKeys = new ArrayList<Vector2>(4);
 		sideKeys.add(0, new Vector2(xPos, 0)); // Coté bas
-		sideKeys.add(1, new Vector2(xPos, Gdx.graphics.getHeight() - precision)); // Coté haut
-		sideKeys.add(2, new Vector2(Gdx.graphics.getWidth() - precision, yPos)); // coté droit
+		sideKeys.add(1, new Vector2(xPos, Gdx.graphics.getHeight() - precision)); // Coté
+																					// haut
+		sideKeys.add(2, new Vector2(Gdx.graphics.getWidth() - precision, yPos)); // coté
+																					// droit
 		sideKeys.add(3, new Vector2(0, yPos)); // coté gauche
 
 		if (coinKeys.contains(currentPos)) {
 			if (coinKeys.get(0).x == xPos && coinKeys.get(0).y == yPos) {
-				if (getTileAtPosition(xPos + precision, yPos).getClass() == RoadTile.class) 
+				if (getTileAtPosition(xPos + precision, yPos).getClass() == RoadTile.class)
 					neighorsTiles.add(new Vector2(xPos + precision, yPos));
 				if (getTileAtPosition(xPos, yPos + precision).getClass() == RoadTile.class)
 					neighorsTiles.add(new Vector2(xPos, yPos + precision));
@@ -336,7 +327,7 @@ public class Map implements InputProcessor {
 			if (getTileAtPosition(xPos - precision, yPos).getClass() == RoadTile.class)
 				neighorsTiles.add(new Vector2(xPos - precision, yPos));
 		}
-		
+
 		return neighorsTiles;
 
 	}
@@ -368,6 +359,5 @@ public class Map implements InputProcessor {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
 
 }

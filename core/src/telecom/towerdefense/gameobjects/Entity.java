@@ -90,7 +90,5 @@ public abstract class Entity extends GameObject {
 	public int getMaxLifePoint() {
 		return maxLifePoint;
 	}
-	
-	
 
 }

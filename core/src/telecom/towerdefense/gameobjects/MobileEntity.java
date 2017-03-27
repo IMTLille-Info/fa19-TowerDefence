@@ -7,8 +7,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
 
-import telecom.towerdefense.gameobjects.tiles.Tile;
-
 public abstract class MobileEntity extends Entity {
 	protected Vector2 direction;
 	protected double speed;

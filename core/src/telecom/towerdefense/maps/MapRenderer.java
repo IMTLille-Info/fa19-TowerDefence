@@ -1,7 +1,5 @@
 package telecom.towerdefense.maps;
 
-import java.util.List;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -50,12 +48,14 @@ public class MapRenderer {
 		Entity nexus = currentMap.getNexus();
 		batch.draw(nexus.getTexture(), nexus.getPosition().x, nexus.getPosition().y, AssetLoader.TXT_SIZE * 2,
 				(nexus.getTexture().getRegionHeight() - AssetLoader.TXT_SIZE) * 2);
-		if(nexus.getLifePoint() > 0) drawLifeBar(shapeRenderer, nexus);
+		if (nexus.getLifePoint() > 0)
+			drawLifeBar(shapeRenderer, nexus);
 
 		for (Entity building : currentMap.getListPlayerBuilding()) {
 			batch.draw(building.getTexture(), building.getPosition().x, building.getPosition().y, AssetLoader.TXT_SIZE,
 					building.getTexture().getRegionHeight() - AssetLoader.TXT_SIZE);
-			if(building.getLifePoint() > 0) drawLifeBar(shapeRenderer, building);
+			if (building.getLifePoint() > 0)
+				drawLifeBar(shapeRenderer, building);
 		}
 
 		time += Gdx.graphics.getDeltaTime(); // Time pour les animations
@@ -71,10 +71,11 @@ public class MapRenderer {
 			}
 			batch.draw(texture, enemyUnit.getPosition().x, enemyUnit.getPosition().y + (AssetLoader.TXT_SIZE / 2),
 					AssetLoader.TXT_SIZE, enemyUnit.getTexture().getRegionHeight() - AssetLoader.TXT_SIZE);
-			if(enemyUnit.getLifePoint() > 0) drawLifeBar(shapeRenderer, enemyUnit);
+			if (enemyUnit.getLifePoint() > 0)
+				drawLifeBar(shapeRenderer, enemyUnit);
 		}
-		
-		if(currentMap.isWinLevel()) {
+
+		if (currentMap.isWinLevel()) {
 			font.setColor(Color.BLUE);
 			font.getData().setScale(2);
 			font.draw(batch, "Victoire !", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
@@ -85,34 +86,32 @@ public class MapRenderer {
 		}
 
 		batch.end();
-				
-		/*shapeRenderer.set(ShapeType.Filled);
-		int i = 0;
-		for (MobileEntity enemy : currentMap.getListEnemyUnits()) {
-			shapeRenderer.setColor(i * 10, i * 10, i * 10, 0);
-			List<Vector2> path = enemy.getPath();
-			for (Vector2 t : path) {
-				shapeRenderer.circle(t.x+i*10, t.y, 3.0f);
-			}
-			i++;
-		}*/
+
+		/*
+		 * shapeRenderer.set(ShapeType.Filled); int i = 0; for (MobileEntity
+		 * enemy : currentMap.getListEnemyUnits()) { shapeRenderer.setColor(i *
+		 * 10, i * 10, i * 10, 0); List<Vector2> path = enemy.getPath(); for
+		 * (Vector2 t : path) { shapeRenderer.circle(t.x+i*10, t.y, 3.0f); }
+		 * i++; }
+		 */
 
 		shapeRenderer.end();
-		
-		
+
 	}
-	
+
 	private void drawLifeBar(ShapeRenderer shape, Entity entity) {
 		Vector2 entityPos = entity.getPosition();
-		float xBarSize = (AssetLoader.LIFEBAR_WIDTH * entity.getxUnit() * entity.getLifePoint()) / entity.getMaxLifePoint();
+		float xBarSize = (AssetLoader.LIFEBAR_WIDTH * entity.getxUnit() * entity.getLifePoint())
+				/ entity.getMaxLifePoint();
 		Vector2 lifeBarPos = new Vector2();
-		//Positionnement de la barre de vie
-		if((Gdx.graphics.getHeight() - entityPos.y - (AssetLoader.LIFEBAR_HEIGHT * entity.getyUnit())) <= AssetLoader.LIFEBAR_HEIGHT) {
+		// Positionnement de la barre de vie
+		if ((Gdx.graphics.getHeight() - entityPos.y
+				- (AssetLoader.LIFEBAR_HEIGHT * entity.getyUnit())) <= AssetLoader.LIFEBAR_HEIGHT) {
 			lifeBarPos.set(entityPos.x, entityPos.y - (AssetLoader.LIFEBAR_HEIGHT * entity.getyUnit()));
 		} else {
 			lifeBarPos.set(entityPos.x, entityPos.y + (AssetLoader.LIFEBAR_HEIGHT * entity.getyUnit()));
 		}
-		
+
 		shape.setColor(Color.RED);
 		shape.set(ShapeType.Filled);
 		shape.rect(lifeBarPos.x, lifeBarPos.y, xBarSize, AssetLoader.LIFEBAR_HEIGHT);
