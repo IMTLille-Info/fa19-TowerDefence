@@ -34,9 +34,7 @@ public class TowerDefense extends Game {
 			this.setScreen(CurrentScreen);
 		}catch (GdxRuntimeException ge) {
 			//Pas de map
-		}
-		
-		
+		}		
 	}
 
 	@Override

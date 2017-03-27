@@ -39,6 +39,7 @@ public class LevelScreen implements Screen {
 				int currentLevel = game.getNbLevel();
 				String nextLevelDatas = Gdx.files.internal("level" + String.valueOf(currentLevel) + ".map").readString();
 				LevelScreen nextLevel = new LevelScreen(game, nextLevelDatas, camera);
+				game.setNbLevel(++currentLevel);
 				game.setScreen(nextLevel);
 			} catch (InterruptedException e) {
 				
