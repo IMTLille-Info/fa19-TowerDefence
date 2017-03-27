@@ -70,28 +70,21 @@ public class AI {
 			// Mise à jour de la direction en fonction de la path
 			List<Vector2> path = enemy.getPath();
 			if ((path.size() > 1) && !enemy.isInRange(currentMap.getNexus())) {
-				if ((int) (path.get(path.size() - 2).y / AssetLoader.TXT_SIZE)
-						- (int) (enemy.getPosition().y / AssetLoader.TXT_SIZE) == 0) {
-					if ((int) (path.get(path.size() - 2).x / AssetLoader.TXT_SIZE)
-							- (int) (enemy.getPosition().x / AssetLoader.TXT_SIZE) == 1
-							&& path.get(path.size() - 2).y + 1 > enemy.getPosition().y) {
+				if ((int) (path.get(path.size() - 2).y / AssetLoader.TXT_SIZE) - (int) (enemy.getPosition().y / AssetLoader.TXT_SIZE) == 0) {
+					if ((int) (path.get(path.size() - 2).x / AssetLoader.TXT_SIZE) - (int) (enemy.getPosition().x / AssetLoader.TXT_SIZE) == 1 && path.get(path.size() - 2).y + 1 > enemy.getPosition().y) {
 						enemy.setDirection(new Vector2(1, 0)); // droite
 						path.remove(path.size() - 1);
 					}
-					if ((int) (path.get(path.size() - 2).x / AssetLoader.TXT_SIZE)
-							- (int) (enemy.getPosition().x / AssetLoader.TXT_SIZE) == -1) {
+					if ((int) (path.get(path.size() - 2).x / AssetLoader.TXT_SIZE) - (int) (enemy.getPosition().x / AssetLoader.TXT_SIZE) == -1 && path.get(path.size() - 2).y + 1 > enemy.getPosition().y) {
 						enemy.setDirection(new Vector2(-1, 0)); // gauche
 						path.remove(path.size() - 1);
 					}
-				} else if ((int) (path.get(path.size() - 2).x / AssetLoader.TXT_SIZE)
-						- (int) (enemy.getPosition().x / AssetLoader.TXT_SIZE) == 0) {
-					if ((int) (path.get(path.size() - 2).y / AssetLoader.TXT_SIZE)
-							- (int) (enemy.getPosition().y / AssetLoader.TXT_SIZE) == 1) {
+				} else if ((int) (path.get(path.size() - 2).x / AssetLoader.TXT_SIZE) - (int) (enemy.getPosition().x / AssetLoader.TXT_SIZE) == 0) {
+					if ((int) (path.get(path.size() - 2).y / AssetLoader.TXT_SIZE) - (int) (enemy.getPosition().y / AssetLoader.TXT_SIZE) == 1) {
 						enemy.setDirection(new Vector2(0, 1)); // haut
 						path.remove(path.size() - 1);
 					}
-					if ((int) (path.get(path.size() - 2).y / AssetLoader.TXT_SIZE)
-							- (int) (enemy.getPosition().y / AssetLoader.TXT_SIZE) == -1) {
+					if ((int) (path.get(path.size() - 2).y / AssetLoader.TXT_SIZE) - (int) (enemy.getPosition().y / AssetLoader.TXT_SIZE) == -1 && path.get(path.size() - 2).x + 1 > enemy.getPosition().x) {
 						enemy.setDirection(new Vector2(0, -1)); // bas
 						path.remove(path.size() - 1);
 					}

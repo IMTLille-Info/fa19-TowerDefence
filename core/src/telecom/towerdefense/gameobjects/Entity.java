@@ -33,11 +33,6 @@ public abstract class Entity extends GameObject {
 			target.takeDamage(damageAttack);
 			lastAttackTime = new Timestamp(System.currentTimeMillis());
 		}
-
-		/*
-		 * int newLife = target.getLifePoint() - damageAttack; if (newLife <= 0)
-		 * throw new Exception(); target.setLifePoint(newLife);
-		 */
 	}
 
 	public void takeDamage(int damage) throws Exception {
